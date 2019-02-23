@@ -96,10 +96,12 @@ router.post(
       .update(req.body.password)
       .digest('hex')
 
+    // #region 認証
     connection.query(
       'SELECT * FROM accounts WHERE loginId = ? AND password = ? LIMIT 1',
       [req.body.loginId, passwordHash],
       (err, results) => {
+        // #region 認証状態確認(アカウントが存在するかどうか)
         if (results.length !== 1) {
           return res.status(403).json({
             status: false,
@@ -110,14 +112,17 @@ router.post(
             }
           })
         }
+        // #endregion
 
         const account = results[0]
 
+        // Gravatar用IDの生成(メールアドレスのMD5ダイジェスト値)
         const gravatarId = crypto
           .createHash('md5')
           .update(account.emailAddress)
           .digest('hex')
 
+        // JWTトークン生成
         const token = jwt.sign(
           {
             'pw.neirowork.librarian.displayName': account.displayName,
@@ -130,12 +135,14 @@ router.post(
           }
         )
 
+        // トークン返却
         return res.json({
           status: true,
           token: token
         })
       }
     )
+    // #endregion
   }
 )
 
