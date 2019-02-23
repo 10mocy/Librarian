@@ -1,10 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
+const librarianConfig = require('../../librarian.config')
 const mysqlConfig = require('../../mysql.config')
+
 const mysql = require('mysql')
 const connection = mysql.createConnection(mysqlConfig)
 
+const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const { check, validationResult } = require('express-validator/check')
 
@@ -25,7 +28,7 @@ router.post(
         .json({ status: false, errors: validationErrors.array() })
     }
 
-    // パスワードハッシュの作成
+    // パスワードハッシュの生成
     const passwordHash = crypto
       .createHash('sha512')
       .update(req.body.password)
@@ -74,4 +77,66 @@ router.post(
     )
   }
 )
+
+// [POST] 認証を行う
+router.post(
+  '/jwt',
+  [check('loginId').isAlphanumeric(), check('password').isString()],
+  (req, res) => {
+    const validationErrors = validationResult(req)
+    if (!validationErrors.isEmpty) {
+      return res
+        .status(422)
+        .json({ status: false, errors: validationErrors.array() })
+    }
+
+    // パスワードハッシュの生成
+    const passwordHash = crypto
+      .createHash('sha512')
+      .update(req.body.password)
+      .digest('hex')
+
+    connection.query(
+      'SELECT * FROM accounts WHERE loginId = ? AND password = ? LIMIT 1',
+      [req.body.loginId, passwordHash],
+      (err, results) => {
+        if (results.length !== 1) {
+          return res.status(403).json({
+            status: false,
+            errors: {
+              code: '001-0001',
+              enum: 'FAILED_AUTHORIZE',
+              message: '認証に失敗しました。'
+            }
+          })
+        }
+
+        const account = results[0]
+
+        const gravatarId = crypto
+          .createHash('md5')
+          .update(account.emailAddress)
+          .digest('hex')
+
+        const token = jwt.sign(
+          {
+            'pw.neirowork.librarian.displayName': account.displayName,
+            'pw.neirowork.librarian.gravatarId': gravatarId,
+            'pw.neirowork.librarian.userHash': account.hash
+          },
+          librarianConfig.secret,
+          {
+            expiresIn: '24h'
+          }
+        )
+
+        return res.json({
+          status: true,
+          token: token
+        })
+      }
+    )
+  }
+)
+
 module.exports = router
