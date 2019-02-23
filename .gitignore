@@ -84,3 +84,4 @@ dist
 sw.*
 
 mysql.config.js
+librarian.config.js
