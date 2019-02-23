@@ -9,6 +9,7 @@ const connection = mysql.createConnection(mysqlConfig)
 
 const { check, validationResult } = require('express-validator/check')
 
+// [🔒GET] 蔵書リストを取得する
 router.get('/', (req, res) => {
   // res.json({
   //   status: true,
@@ -23,7 +24,7 @@ router.get('/', (req, res) => {
         result,
         (i, callback) => {
           books.push({
-            id: i.id,
+            hash: i.hash,
             title: i.title,
             volume: i.volume,
             isDoujin: i.isDoujin,
@@ -42,6 +43,7 @@ router.get('/', (req, res) => {
   )
 })
 
+// [🔒POST] 蔵書を登録する
 router.post(
   '/',
   [
@@ -80,7 +82,7 @@ router.post(
             const data = results[0]
             return res.json({
               status: true,
-              id: data.id,
+              hash: data.hash,
               title: data.title,
               volume: data.volume,
               timestamp: data.timestamp
@@ -91,4 +93,27 @@ router.post(
     )
   }
 )
+
+// [🔒DELETE] 蔵書を削除する
+router.delete('/:bookHash', [check('bookHash').isString()], (req, res) => {
+  const validationErrors = validationResult(req)
+  if (!validationErrors.isEmpty) {
+    return res
+      .status(422)
+      .json({ status: false, errors: validationErrors.array() })
+  }
+
+  connection.query(
+    'UPDATE books SET isDelete = 1 WHERE ?',
+    {
+      hash: req.params.bookHash
+    },
+    (err, result) => {
+      return res.json({
+        status: true,
+        hash: req.params.bookHash
+      })
+    }
+  )
+})
 module.exports = router
