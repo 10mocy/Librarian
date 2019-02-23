@@ -87,6 +87,48 @@ router.get('/', (req, res) => {
   )
 })
 
+// [🔒GET] 蔵書を検索する
+router.get('/search', [check('query').isString()], (req, res) => {
+  const validationErrors = validationResult(req)
+  console.log(validationErrors.array())
+  if (validationErrors.array().length !== 0) {
+    return res
+      .status(422)
+      .json({ status: false, errors: validationErrors.array() })
+  }
+
+  connection.query(
+    'SELECT * FROM books WHERE title LIKE ? OR remarks LIKE ? AND userHash = ? AND isDelete = 0',
+    [
+      `%${req.body.query}%`,
+      `%${req.body.query}%`,
+      req.token['pw.neirowork.librarian.userHash']
+    ],
+    (err, results) => {
+      let books = []
+      async.each(
+        results,
+        (i, callback) => {
+          books.push({
+            hash: i.hash,
+            title: i.title,
+            volume: i.volume,
+            isDoujin: i.isDoujin,
+            timestamp: i.timestamp
+          })
+          callback()
+        },
+        err => {
+          return res.json({
+            status: true,
+            books
+          })
+        }
+      )
+    }
+  )
+})
+
 // [🔒POST] 蔵書を登録する
 router.post(
   '/',
