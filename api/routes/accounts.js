@@ -22,57 +22,76 @@ router.post(
   ],
   (req, res) => {
     const validationErrors = validationResult(req)
-    if (!validationErrors.isEmpty) {
+    if (validationErrors.array().length !== 0) {
       return res
         .status(422)
         .json({ status: false, errors: validationErrors.array() })
     }
 
-    // パスワードハッシュの生成
-    const passwordHash = crypto
-      .createHash('sha512')
-      .update(req.body.password)
-      .digest('hex')
-
+    // 登録しようとしているログインIDが既に存在していないかを確認する
     connection.query(
-      'INSERT INTO accounts SET ?',
-      {
-        loginId: req.body.loginId,
-        password: passwordHash,
-        emailAddress: req.body.emailAddress,
-        displayName: req.body.displayName
-      },
+      'SELECT * FROM accounts WHERE loginId = ?',
+      [req.body.loginId],
       (err, results) => {
-        // ユーザIDの取得
-        const userId = results.insertId
+        // 登録状態の確認
+        if (results.length !== 0) {
+          return res.status(403).json({
+            status: false,
+            errors: {
+              code: '001-0002',
+              enum: 'EXIST_LOGINID',
+              message: '既に使用されているログインIDです'
+            }
+          })
+        } else {
+          // パスワードハッシュの生成
+          const passwordHash = crypto
+            .createHash('sha512')
+            .update(req.body.password)
+            .digest('hex')
 
-        //ユーザIDからユーザハッシュを作成
-        const userHash = crypto
-          .createHash('sha256')
-          .update(String(userId))
-          .digest('hex')
+          connection.query(
+            'INSERT INTO accounts SET ?',
+            {
+              loginId: req.body.loginId,
+              password: passwordHash,
+              emailAddress: req.body.emailAddress,
+              displayName: req.body.displayName
+            },
+            (err, results) => {
+              // ユーザIDの取得
+              const userId = results.insertId
 
-        // #region ユーザハッシュ適用
-        connection.query(
-          'UPDATE accounts SET hash = ? WHERE id = ?',
-          [userHash, results.insertId],
-          (err, results) => {
-            // #region 最終的なユーザ情報取得
-            connection.query(
-              'SELECT * FROM accounts WHERE id = ?',
-              [userId],
-              (err, results) => {
-                // レスポンス
-                return res.json({
-                  status: true,
-                  hash: userHash
-                })
-              }
-            )
-            // #endregion
-          }
-        )
-        // #endregion
+              //ユーザIDからユーザハッシュを作成
+              const userHash = crypto
+                .createHash('sha256')
+                .update(String(userId))
+                .digest('hex')
+
+              // #region ユーザハッシュ適用
+              connection.query(
+                'UPDATE accounts SET hash = ? WHERE id = ?',
+                [userHash, results.insertId],
+                (err, results) => {
+                  // #region 最終的なユーザ情報取得
+                  connection.query(
+                    'SELECT * FROM accounts WHERE id = ?',
+                    [userId],
+                    (err, results) => {
+                      // レスポンス
+                      return res.json({
+                        status: true,
+                        hash: userHash
+                      })
+                    }
+                  )
+                  // #endregion
+                }
+              )
+              // #endregion
+            }
+          )
+        }
       }
     )
   }
@@ -84,7 +103,7 @@ router.post(
   [check('loginId').isAlphanumeric(), check('password').isString()],
   (req, res) => {
     const validationErrors = validationResult(req)
-    if (!validationErrors.isEmpty) {
+    if (validationErrors.array().length !== 0) {
       return res
         .status(422)
         .json({ status: false, errors: validationErrors.array() })
