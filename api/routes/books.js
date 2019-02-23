@@ -161,16 +161,37 @@ router.delete('/:bookHash', [check('bookHash').isString()], (req, res) => {
       .json({ status: false, errors: validationErrors.array() })
   }
 
+  const bookHash = req.params.bookHash
+
   connection.query(
-    'UPDATE books SET isDelete = 1 WHERE ?',
+    'SELECT * FROM books WHERE ? AND isDelete = 0',
     {
-      hash: req.params.bookHash
+      hash: bookHash
     },
-    (err, result) => {
-      return res.json({
-        status: true,
-        hash: req.params.bookHash
-      })
+    (err, results) => {
+      if (results.length === 0) {
+        return res.status(404).json({
+          status: false,
+          errors: {
+            code: '002-0001',
+            enum: 'BOOK_NOT_FOUND',
+            message: '指定された蔵書が見つかりません。'
+          }
+        })
+      } else {
+        connection.query(
+          'UPDATE books SET isDelete = 1 WHERE ?',
+          {
+            hash: bookHash
+          },
+          (err, results) => {
+            return res.json({
+              status: true,
+              hash: bookHash
+            })
+          }
+        )
+      }
     }
   )
 })
