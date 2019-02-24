@@ -21,6 +21,7 @@
 
 <style lang="scss" scoped>
 .nav {
+  margin-bottom: 30px;
   padding: 10px;
   background-color: #222222;
 
