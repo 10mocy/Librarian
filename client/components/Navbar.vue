@@ -1,0 +1,52 @@
+<template lang="pug">
+  .nav
+    .nav_brand Librarian
+    ul.nav_menu
+      li.nav_menu_item 
+        a(href='#').nav_menu_item_link
+          font-awesome-icon(icon='book')
+          | &nbsp;蔵書登録
+      li.nav_menu_item 
+        a(href='#').nav_menu_item_link
+          font-awesome-icon(icon='search')
+          | &nbsp;蔵書検索
+      li.nav_menu_item
+        a(href='#').nav_menu_item_link
+          font-awesome-icon(icon='tools')
+          | &nbsp;蔵書管理
+      li.nav_menu_item 
+        a(href='#').nav_menu_item_link
+          font-awesome-icon(icon='sign-in-alt')
+          | &nbsp;ログイン
+</template>
+
+<style lang="scss" scoped>
+.nav {
+  padding: 10px;
+  background-color: #222222;
+
+  &_brand,
+  &_menu {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  &_brand {
+    padding: 0 10px;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  &_menu {
+    &_item {
+      display: inline-block;
+      padding-left: 20px;
+      color: #bbbbbb;
+      &_link:visited,
+      &_link:hover {
+        color: #bbbbbb;
+      }
+    }
+  }
+}
+</style>
