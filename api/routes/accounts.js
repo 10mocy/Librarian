@@ -144,9 +144,9 @@ router.post(
         // JWTトークン生成
         const token = jwt.sign(
           {
-            'pw.neirowork.librarian.displayName': account.displayName,
-            'pw.neirowork.librarian.gravatarId': gravatarId,
-            'pw.neirowork.librarian.userHash': account.hash
+            'work.neirowork.librarian.displayName': account.displayName,
+            'work.neirowork.librarian.gravatarId': gravatarId,
+            'work.neirowork.librarian.userHash': account.hash
           },
           librarianConfig.secret,
           {

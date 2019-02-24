@@ -62,7 +62,7 @@ router.get('/', (req, res) => {
   connection.query(
     'SELECT * FROM books WHERE ? AND isDelete = 0',
     {
-      userHash: req.token['pw.neirowork.librarian.userHash']
+      userHash: req.token['work.neirowork.librarian.userHash']
     },
     (err, result, fields) => {
       // 返却データの作成
@@ -106,7 +106,7 @@ router.get('/search', [check('query').isString()], (req, res) => {
     [
       `%${req.body.query}%`,
       `%${req.body.query}%`,
-      req.token['pw.neirowork.librarian.userHash']
+      req.token['work.neirowork.librarian.userHash']
     ],
     (err, results) => {
       // 返却データの作成
@@ -165,7 +165,7 @@ router.post(
         volume: req.body.volume,
         isDoujin: req.body.isDoujin,
         remarks: req.body.remarks,
-        userHash: req.token['pw.neirowork.librarian.userHash'],
+        userHash: req.token['work.neirowork.librarian.userHash'],
         timestamp: Math.floor(date.getTime() / 1000)
       },
       (err, results) => {
