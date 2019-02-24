@@ -25,7 +25,12 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [],
+  css: [
+    '@fortawesome/fontawesome-free-webfonts',
+    '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css',
+    '@fortawesome/fontawesome-free-webfonts/css/fa-regular.css',
+    '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css'
+  ],
 
   /*
   ** Plugins to load before mounting the App
@@ -37,7 +42,8 @@ module.exports = {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'nuxt-fontawesome'
   ],
   /*
   ** Axios module configuration
@@ -54,6 +60,15 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {}
+  },
+
+  fontawesome: {
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      }
+    ]
   },
 
   serverMiddleware: ['~~/api']
