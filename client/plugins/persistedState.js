@@ -1,6 +1,6 @@
 import createPersistedState from 'vuex-persistedstate'
 
-export default ({ store, isHMR }) => {
+module.exports = ({ store, isHMR }) => {
   if (isHMR) return
   if (process.client) {
     window.onNuxtReady(nuxt => {
