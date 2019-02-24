@@ -3,19 +3,18 @@
     .nav_brand Librarian
     ul.nav_menu
       li.nav_menu_item 
-        a(href='#').nav_menu_item_link
+        nuxt-link(to='/').nav_menu_item_link
+          font-awesome-icon(icon='home')
+      li.nav_menu_item 
+        nuxt-link(to='/books/register').nav_menu_item_link
           font-awesome-icon(icon='book')
           | &nbsp;蔵書登録
       li.nav_menu_item 
-        a(href='#').nav_menu_item_link
+        nuxt-link(to='/books/search').nav_menu_item_link
           font-awesome-icon(icon='search')
           | &nbsp;蔵書検索
-      li.nav_menu_item
-        a(href='#').nav_menu_item_link
-          font-awesome-icon(icon='tools')
-          | &nbsp;蔵書管理
       li.nav_menu_item 
-        a(href='#').nav_menu_item_link
+        nuxt-link(to='/login').nav_menu_item_link
           font-awesome-icon(icon='sign-in-alt')
           | &nbsp;ログイン
 </template>
@@ -42,9 +41,14 @@
       display: inline-block;
       padding-left: 20px;
       color: #bbbbbb;
+
+      &_link:link,
       &_link:visited,
       &_link:hover {
-        color: #bbbbbb;
+        color: #999999;
+        &.nuxt-link-exact-active {
+          color: #cccccc;
+        }
       }
     }
   }
