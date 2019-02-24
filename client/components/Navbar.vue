@@ -17,7 +17,21 @@
         nuxt-link(to='/login').nav_menu_item_link
           font-awesome-icon(icon='sign-in-alt')
           | &nbsp;ログイン
+      li.nav_menu_item 
+        span(@click='logout()').nav_menu_item_link
+          font-awesome-icon(icon='sign-out-alt')
+          | &nbsp;ログアウト
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      console.log('logout')
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .nav {
@@ -43,10 +57,13 @@
       padding-left: 20px;
       color: #bbbbbb;
 
+      &_link,
       &_link:link,
       &_link:visited,
       &_link:hover {
         color: #999999;
+        cursor: pointer;
+        user-select: none;
         &.nuxt-link-exact-active {
           color: #cccccc;
         }
