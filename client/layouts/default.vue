@@ -18,7 +18,7 @@ html {
   margin: 0;
   padding: 0;
   font-weight: normal;
-  font-size: 20px;
+  font-size: 18px;
   border: none;
   text-decoration: none;
   background-color: rgba(255, 255, 255, 0);
