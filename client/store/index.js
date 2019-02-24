@@ -2,7 +2,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import users from './users'
 
-const createStore = () => {
+export default () => {
   return new Vuex.Store({
     modules: {
       users
@@ -17,5 +17,3 @@ const createStore = () => {
     ]
   })
 }
-
-module.exports = createStore
