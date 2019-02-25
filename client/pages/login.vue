@@ -107,6 +107,7 @@ export default {
     margin-bottom: 10px;
   }
 }
+
 .alert {
   margin-bottom: 10px;
   padding: 10px;
@@ -117,6 +118,7 @@ export default {
     color: #ffffff;
   }
 }
+
 .form {
   &_part {
     display: block;
@@ -143,6 +145,7 @@ export default {
     }
   }
 }
+
 .button {
   width: 100%;
   padding: 10px 5px;
