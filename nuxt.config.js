@@ -29,7 +29,8 @@ module.exports = {
     '@fortawesome/fontawesome-free-webfonts',
     '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css',
     '@fortawesome/fontawesome-free-webfonts/css/fa-regular.css',
-    '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css'
+    '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css',
+    '~/assets/css/scss/style.scss'
   ],
 
   /*

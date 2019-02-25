@@ -1,0 +1,150 @@
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: $sp) {
+    @content;
+  }
+}
+
+/* パネル型ボタン */
+.panelButton {
+  font-size: 0;
+
+  &_wrap {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    font-size: 1rem;
+    color: #222222;
+
+    @include sp {
+      display: block;
+      width: 100%;
+    }
+
+    &_item {
+      display: block;
+      margin: 10px;
+      padding: 20px;
+      background-color: #efefef;
+      border-bottom: 2px solid #c9c9c9;
+      border-radius: 10px;
+      user-select: none;
+      cursor: pointer;
+
+      &_icon,
+      &_label {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      &_icon {
+        font-size: 2em;
+      }
+
+      &_label {
+        padding-left: 10px;
+        font-size: 1.25em;
+        font-weight: bold;
+      }
+
+      &:active {
+        background-color: #c9c9c9;
+        border-bottom: 2px solid #efefef;
+      }
+
+      &-success {
+        color: #ffffff;
+        background-color: #008ffe;
+        border-bottom: 2px solid #037cd8;
+        &:active {
+          background-color: #037cd8;
+          border-bottom: 2px solid #008ffe;
+        }
+      }
+    }
+  }
+}
+
+/* パネル */
+.panel {
+  display: inline-block;
+  border: 1px solid #efefef;
+  border-radius: 10px;
+  background-color: #f7f7f7;
+  box-shadow: 0 2px 0 #d6d6d6;
+  max-width: 470px;
+  padding: 20px;
+  text-align: left;
+
+  @include sp {
+    display: block;
+    max-width: 100%;
+  }
+
+  &_header {
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+}
+
+/* アラート */
+.alert {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+
+  &-danger {
+    background-color: #e44646;
+    color: #ffffff;
+  }
+}
+
+/* フォーム */
+.form {
+  &_part {
+    display: block;
+    margin-bottom: 10px;
+
+    &_label,
+    &_input,
+    &_button {
+      width: 100%;
+      display: inline-block;
+    }
+
+    &_label {
+      font-size: 0.75em;
+      color: #666666;
+    }
+
+    &_input {
+      padding: 5px;
+      font-weight: bold;
+      background-color: #fdfdfd;
+      border-bottom: 2px solid #afafaf;
+      font-size: 1.5em;
+    }
+  }
+}
+
+/* ボタン */
+.button {
+  width: 100%;
+  padding: 10px 5px;
+  border-radius: 10px;
+  transition: all linear 100ms;
+
+  &-submit {
+    color: #ffffff;
+    border-top: 1px solid #01c51b;
+    background-color: #00ad17;
+    border-bottom: 1px solid #008512;
+    &:active {
+      border-top: 1px solid #008512;
+      background-color: #019915;
+      border-bottom: 1px solid #01c51b;
+    }
+  }
+}
