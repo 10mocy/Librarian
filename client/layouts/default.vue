@@ -48,6 +48,15 @@ html {
 *:focus {
   outline: none;
 }
+
+b {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+small {
+  font-size: 0.75em;
+}
 </style>
 
 <style lang="scss" scoped>
