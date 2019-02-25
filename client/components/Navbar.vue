@@ -2,9 +2,9 @@
   .nav
     .nav_brand Librarian
     ul.nav_menu
-      span(v-if='isLogin()')
-        li.nav_menu_item(v-if='session.data')
-          v-gravatar(:hash='session.data.gravatarId', :size='32', :title='session.data.displayName + "としてログイン中"').nav_menu_item_icon.nav_menu_item_icon-picture
+      span(v-if='sessionData')
+        li.nav_menu_item
+          v-gravatar(:hash='sessionData.gravatarId', :size='32', :title='sessionData.displayName + "としてログイン中"').nav_menu_item_icon.nav_menu_item_icon-picture
         li.nav_menu_item
           nuxt-link(to='/').nav_menu_item_link
             font-awesome-icon(icon='home').nav_menu_item_icon
@@ -16,7 +16,7 @@
           span(@click='logout()').nav_menu_item_link
             font-awesome-icon(icon='sign-out-alt').nav_menu_item_icon
             span.nav_menu_item_label &nbsp;ログアウト
-      span(v-if='!isLogin()')
+      span(v-if='!sessionData')
         li.nav_menu_item
           nuxt-link(to='/login').nav_menu_item_link
             font-awesome-icon(icon='sign-in-alt').nav_menu_item_icon
@@ -24,22 +24,19 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
-  data() {
-    return {
-      // session: this.$store.state.session
-    }
-  },
   computed: {
-    session() {
-      return this.$store.state.session
-    }
+    ...mapGetters({
+      isLoggedin: 'session/isLoggedIn',
+      sessionData: 'session/data'
+    })
+  },
+  mounted() {
+    this.unchi = true
   },
   methods: {
-    isLogin() {
-      const session = this.$store.state.session
-      return session.token && session.data ? true : false
-    },
     logout() {
       this.$store.commit('session/logout')
       this.$router.push('/login')

@@ -14,8 +14,32 @@ const mutations = {
   }
 }
 
-module.exports = {
+const actions = {
+  requireAuth({ state }) {
+    if (!state.token || !state.data) {
+      this.$router.replace('/login')
+      return false
+    }
+    return true
+  }
+}
+
+const getters = {
+  isLoggedIn(state) {
+    return !!(state.token && state.data)
+  },
+  token(state) {
+    return state.token
+  },
+  data(state) {
+    return state.data
+  }
+}
+
+export default {
   namespaced: true,
   state,
-  mutations
+  mutations,
+  getters,
+  actions
 }

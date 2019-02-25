@@ -22,19 +22,25 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 const axios = require('axios')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
 export default {
-  beforeCreate() {
-    const session = this.$store.state.session
-    console.log(session)
-    if (session.token && session.data) {
+  beforeMount() {
+    if (this.isLoggedin) {
       this.$router.replace('/')
     }
+    this.requireAuth()
   },
   mounted() {},
+  computed: {
+    ...mapGetters({
+      isLoggedin: 'session/isLoggedIn'
+    })
+  },
   data() {
     return {
       user: null,
@@ -46,6 +52,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      requireAuth: 'session/requireAuth'
+    }),
     authorize() {
       this.error = null
 

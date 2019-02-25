@@ -5,18 +5,21 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import Navbar from '~/components/Navbar'
 
 export default {
   components: {
     Navbar
   },
-  created() {
-    const session = this.$store.state.session
-    console.log(session)
-    if (!session.token || !session.data) {
-      this.$router.replace('/login')
-    }
+  async beforeMount() {
+    this.requireAuth()
+  },
+  methods: {
+    ...mapActions({
+      requireAuth: 'session/requireAuth'
+    })
   }
 }
 </script>
