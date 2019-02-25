@@ -1,25 +1,24 @@
 <template lang="pug">
-  section
-    navbar
+  section.pageContainer
 
-    .container
-      .panel
-        h2.panel_header Librarianにログイン
-        .panel_container
-          .alert.alert-danger(v-if='error')
-            .alert_content {{ error.message }}
-        form(@submit.prevent='authorize()').form
-          span.form_part
-            label.form_part_label ログインID
-            input(type='text', v-model='login.loginId').form_part_input
-          span.form_part
-            label.form_part_label パスワード
-            input(type='password' v-model='login.password').form_part_input
-          span.form_part
-            button(type='submit').form_part_button.form_part_button-submit ログイン
-      //- div(v-if='user')
-      //-   h2 こんにちは、{{ user.displayName }}さん！
-      //-   v-gravatar(:hash='user.gravatarId')
+    .panel
+      h2.panel_header Librarianにログイン
+      .panel_container
+        .alert.alert-danger(v-if='error')
+          .alert_content {{ error.message }}
+
+      form(@submit.prevent='authorize()').form
+        span.form_part
+          label.form_part_label ログインID
+          input(type='text', v-model='login.loginId').form_part_input
+        span.form_part
+          label.form_part_label パスワード
+          input(type='password' v-model='login.password').form_part_input
+        span.form_part
+          button(type='submit').form_part_button.form_part_button-submit ログイン
+    //- div(v-if='user')
+    //-   h2 こんにちは、{{ user.displayName }}さん！
+    //-   v-gravatar(:hash='user.gravatarId')
 </template>
 
 <script>
@@ -27,12 +26,7 @@ const axios = require('axios')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
-import Navbar from '~/components/Navbar'
-
 export default {
-  components: {
-    Navbar
-  },
   beforeCreate() {
     const session = this.$store.state.session
     console.log(session)
@@ -93,10 +87,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  padding: 0 10%;
+.pageContainer {
   text-align: center;
 }
+
 .panel {
   display: inline-block;
   border: 1px solid #efefef;

@@ -1,11 +1,16 @@
-<template>
-  <div>
-    <nuxt/>
-  </div>
+<template lang="pug">
+  div
+    navbar
+    nuxt.container
 </template>
 
 <script>
+import Navbar from '~/components/Navbar'
+
 export default {
+  components: {
+    Navbar
+  },
   created() {
     const session = this.$store.state.session
     console.log(session)
@@ -15,7 +20,8 @@ export default {
   }
 }
 </script>
-<style>
+
+<style lang="scss">
 html {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -39,5 +45,11 @@ html {
 
 *:focus {
   outline: none;
+}
+</style>
+
+<style lang="scss" scoped>
+.container {
+  padding: 0 10%;
 }
 </style>

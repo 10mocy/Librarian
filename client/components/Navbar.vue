@@ -38,7 +38,7 @@ export default {
   computed: {},
   methods: {
     isLogin() {
-      const session = this.session
+      const session = this.$store.state.session
       return session.token && session.data ? true : false
     },
     logout() {

@@ -1,42 +1,6 @@
 <template lang="pug">
   section.container
-    navbar
-
-    h1 Librarian&nbsp;
-      small w/ neiro.work
-
-    div(v-if='user')
-      h2 こんにちは、{{ user.displayName }}さん！
-      v-gravatar(:hash='user.gravatarId')
-
-    h2 ログインしてください
-    form(@submit.prevent='authorize()')
-      span
-        label ログインID
-        input(type='text', v-model='login.loginId')
-      span
-        label パスワード
-        input(type='password' v-model='login.password')
-      button(type='submit') ログイン
-
-    h2 アカウント登録
-    form(@submit.prevent='register()')
-      span
-        label ログインID
-        input(type='text', v-model='registData.loginId')
-      span
-        label パスワード
-        input(type='password', v-model='registData.password')
-      span
-        label メールアドレス
-        input(type='email', v-model='registData.emailAddress')
-      span
-        label 表示名
-        input(type='text', v-model='registData.displayName')
-    button(type='submit') 登録
-
-    </form>
-  </section>
+    | a
 </template>
 
 <script>
@@ -44,12 +8,7 @@ const axios = require('axios')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 
-import Navbar from '~/components/Navbar'
-
 export default {
-  components: {
-    Navbar
-  },
   data() {
     return {
       user: null,
