@@ -4,6 +4,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  created() {
+    const session = this.$store.state.session
+    console.log(session)
+    if (!session.token || !session.data) {
+      this.$router.replace('/login')
+    }
+  }
+}
+</script>
 <style>
 html {
   box-sizing: border-box;

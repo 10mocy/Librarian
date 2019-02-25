@@ -33,6 +33,14 @@ export default {
   components: {
     Navbar
   },
+  beforeCreate() {
+    const session = this.$store.state.session
+    console.log(session)
+    if (session.token && session.data) {
+      this.$router.replace('/')
+    }
+  },
+  mounted() {},
   data() {
     return {
       user: null,

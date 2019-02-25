@@ -6,6 +6,8 @@
         nuxt-link(to='/').nav_menu_item_link
           font-awesome-icon(icon='home')
       span(v-if='isLogin()')
+        lib.nav_menu_item
+          | {{ }}
         li.nav_menu_item
           nuxt-link(to='/books/register').nav_menu_item_link
             font-awesome-icon(icon='book')
