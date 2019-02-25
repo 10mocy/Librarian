@@ -31,7 +31,6 @@ html {
 *,
 *:before,
 *:after {
-  transition: all 50ms linear;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
