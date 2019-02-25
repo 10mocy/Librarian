@@ -1,10 +1,10 @@
 # Librarian
 
-> 
+>
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ npm install
 
@@ -18,5 +18,9 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
+
+## Contributors
+
+- [神 isGod(TinyKitten)](https://github.com/TinyKitten)
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
