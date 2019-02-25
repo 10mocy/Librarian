@@ -90,8 +90,8 @@ router.get('/', (req, res) => {
   )
 })
 
-// [🔒GET] 蔵書を検索する
-router.get('/search', [check('query').isString()], (req, res) => {
+// [🔒POST] 蔵書を検索する
+router.post('/search', [check('query').isString()], (req, res) => {
   const validationErrors = validationResult(req)
   console.log(validationErrors.array())
   if (validationErrors.array().length !== 0) {
@@ -155,8 +155,6 @@ router.post(
 
     const date = new Date()
 
-    console.log(req.token)
-
     // 蔵書の登録
     connection.query(
       'INSERT INTO books SET ?',
@@ -207,6 +205,45 @@ router.post(
     )
   }
 )
+
+// [🔒GET] 蔵書情報を取得する
+router.get('/:bookHash', [check('bookHash').isString()], (req, res) => {
+  const validationErrors = validationResult(req)
+  if (validationErrors.array().length !== 0) {
+    return res
+      .status(422)
+      .json({ status: false, errors: validationErrors.array() })
+  }
+
+  connection.query(
+    'SELECT * FROM books WHERE hash = ? AND isDelete = 0 AND userHash = ?',
+    [req.params.bookHash, req.token['work.neirowork.librarian.userHash']],
+    (err, results) => {
+      if (results.length === 0) {
+        return res.status(404).json({
+          status: false,
+          errors: {
+            code: '002-0001',
+            enum: 'BOOK_NOT_FOUND',
+            message: '指定された蔵書が見つかりません。'
+          }
+        })
+      } else {
+        const book = results[0]
+        return res.json({
+          status: true,
+          book: {
+            title: book.title,
+            volume: book.volume,
+            isDoujin: book.isDoujin,
+            remarks: book.remarks,
+            timestamp: book.timestamp
+          }
+        })
+      }
+    }
+  )
+})
 
 // [🔒DELETE] 蔵書を削除する
 router.delete('/:bookHash', [check('bookHash').isString()], (req, res) => {
