@@ -4,35 +4,41 @@
     ul.nav_menu
       li.nav_menu_item 
         nuxt-link(to='/').nav_menu_item_link
-          font-awesome-icon(icon='home')
+          font-awesome-icon(icon='home').nav_menu_item_icon
       span(v-if='isLogin()')
-        lib.nav_menu_item
-          | {{ }}
+        li.nav_menu_item
+          v-gravatar(:hash='session.data.gravatarId', size='18').nav_menu_item_icon
+          span.nav_menu_item_label &nbsp;音色ねいろ
         li.nav_menu_item
           nuxt-link(to='/books/register').nav_menu_item_link
-            font-awesome-icon(icon='book')
-            | &nbsp;蔵書登録
+            font-awesome-icon(icon='book').nav_menu_item_icon
+            span.nav_menu_item_label &nbsp;蔵書登録
         li.nav_menu_item
           nuxt-link(to='/books/search').nav_menu_item_link
-            font-awesome-icon(icon='search')
-            | &nbsp;蔵書検索
+            font-awesome-icon(icon='search').nav_menu_item_icon
+            span.nav_menu_item_label &nbsp;蔵書検索
         li.nav_menu_item
           span(@click='logout()').nav_menu_item_link
-            font-awesome-icon(icon='sign-out-alt')
-            | &nbsp;ログアウト
+            font-awesome-icon(icon='sign-out-alt').nav_menu_item_icon
+            span.nav_menu_item_label &nbsp;ログアウト
       span(v-if='!isLogin()')
         li.nav_menu_item
           nuxt-link(to='/login').nav_menu_item_link
-            font-awesome-icon(icon='sign-in-alt')
-            | &nbsp;ログイン
+            font-awesome-icon(icon='sign-in-alt').nav_menu_item_icon
+            span.nav_menu_item_label &nbsp;ログイン
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      session: this.$store.state.session
+    }
+  },
   computed: {},
   methods: {
     isLogin() {
-      const session = this.$store.state.session
+      const session = this.session
       return session.token && session.data ? true : false
     },
     logout() {
@@ -67,6 +73,10 @@ export default {
       padding-left: 20px;
       color: #bbbbbb;
 
+      &_icon,
+      &_label {
+        vertical-align: middle;
+      }
       &_link,
       &_link:link,
       &_link:visited,
