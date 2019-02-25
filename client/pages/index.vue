@@ -1,6 +1,8 @@
 <template lang="pug">
   section.container
-    | a
+    ul
+      li 蔵書を探す
+      li 蔵書を管理する
 </template>
 
 <script>

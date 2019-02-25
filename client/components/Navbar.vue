@@ -7,12 +7,7 @@
           font-awesome-icon(icon='home').nav_menu_item_icon
       span(v-if='isLogin()')
         li.nav_menu_item(v-if='session')
-          v-gravatar(:hash='session.data.gravatarId', :size='18').nav_menu_item_icon
-          span.nav_menu_item_label &nbsp;{{ session.data.displayName }}
-        li.nav_menu_item
-          nuxt-link(to='/books/register').nav_menu_item_link
-            font-awesome-icon(icon='book').nav_menu_item_icon
-            span.nav_menu_item_label &nbsp;蔵書登録
+          v-gravatar(:hash='session.data.gravatarId', :size='32').nav_menu_item_icon
         li.nav_menu_item
           nuxt-link(to='/books/search').nav_menu_item_link
             font-awesome-icon(icon='search').nav_menu_item_icon
