@@ -15,7 +15,7 @@
           label.form_part_label パスワード
           input(type='password' v-model='login.password').form_part_input
         span.form_part
-          button(type='submit').form_part_button.form_part_button-submit ログイン
+          button(type='submit').button.button-submit ログイン
     //- div(v-if='user')
     //-   h2 こんにちは、{{ user.displayName }}さん！
     //-   v-gravatar(:hash='user.gravatarId')
@@ -141,23 +141,23 @@ export default {
       border-bottom: 2px solid #afafaf;
       font-size: 1.5em;
     }
+  }
+}
+.button {
+  width: 100%;
+  padding: 10px 5px;
+  border-radius: 10px;
+  transition: all linear 100ms;
 
-    &_button {
-      width: 100%;
-      padding: 10px 5px;
-      border-radius: 10px;
-
-      &-submit {
-        color: #ffffff;
-        border-top: 1px solid #01c51b;
-        background-color: #00ad17;
-        border-bottom: 1px solid #008512;
-        &:active {
-          border-top: 1px solid #008512;
-          background-color: #019915;
-          border-bottom: 1px solid #01c51b;
-        }
-      }
+  &-submit {
+    color: #ffffff;
+    border-top: 1px solid #01c51b;
+    background-color: #00ad17;
+    border-bottom: 1px solid #008512;
+    &:active {
+      border-top: 1px solid #008512;
+      background-color: #019915;
+      border-bottom: 1px solid #01c51b;
     }
   }
 }
