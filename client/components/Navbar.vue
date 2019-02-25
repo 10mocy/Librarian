@@ -2,12 +2,12 @@
   .nav
     .nav_brand Librarian
     ul.nav_menu
-      li.nav_menu_item 
-        nuxt-link(to='/').nav_menu_item_link
-          font-awesome-icon(icon='home').nav_menu_item_icon
       span(v-if='isLogin()')
-        li.nav_menu_item(v-if='session')
-          v-gravatar(:hash='session.data.gravatarId', :size='32').nav_menu_item_icon
+        li.nav_menu_item(v-if='session.data')
+          v-gravatar(:hash='session.data.gravatarId', :size='32', :title='session.data.displayName + "としてログイン中"').nav_menu_item_icon.nav_menu_item_icon-picture
+        li.nav_menu_item
+          nuxt-link(to='/').nav_menu_item_link
+            font-awesome-icon(icon='home').nav_menu_item_icon
         li.nav_menu_item
           nuxt-link(to='/books/search').nav_menu_item_link
             font-awesome-icon(icon='search').nav_menu_item_icon
@@ -27,13 +27,14 @@
 export default {
   data() {
     return {
-      session: this.$store.state.session
+      // session: this.$store.state.session
     }
   },
-  mounted() {
-    this.session = this.$store.state.session
+  computed: {
+    session() {
+      return this.$store.state.session
+    }
   },
-  computed: {},
   methods: {
     isLogin() {
       const session = this.$store.state.session
@@ -77,6 +78,11 @@ export default {
       &_label {
         vertical-align: middle;
         user-select: none;
+      }
+      &_icon {
+        &-picture {
+          border-radius: 50%;
+        }
       }
       &_link {
         color: #585858;
