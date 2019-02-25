@@ -5,29 +5,37 @@
       li.nav_menu_item 
         nuxt-link(to='/').nav_menu_item_link
           font-awesome-icon(icon='home')
-      li.nav_menu_item 
-        nuxt-link(to='/books/register').nav_menu_item_link
-          font-awesome-icon(icon='book')
-          | &nbsp;蔵書登録
-      li.nav_menu_item 
-        nuxt-link(to='/books/search').nav_menu_item_link
-          font-awesome-icon(icon='search')
-          | &nbsp;蔵書検索
-      li.nav_menu_item 
-        nuxt-link(to='/login').nav_menu_item_link
-          font-awesome-icon(icon='sign-in-alt')
-          | &nbsp;ログイン
-      li.nav_menu_item 
-        span(@click='logout()').nav_menu_item_link
-          font-awesome-icon(icon='sign-out-alt')
-          | &nbsp;ログアウト
+      span(v-if='isLogin()')
+        li.nav_menu_item
+          nuxt-link(to='/books/register').nav_menu_item_link
+            font-awesome-icon(icon='book')
+            | &nbsp;蔵書登録
+        li.nav_menu_item
+          nuxt-link(to='/books/search').nav_menu_item_link
+            font-awesome-icon(icon='search')
+            | &nbsp;蔵書検索
+        li.nav_menu_item
+          span(@click='logout()').nav_menu_item_link
+            font-awesome-icon(icon='sign-out-alt')
+            | &nbsp;ログアウト
+      span(v-if='!isLogin()')
+        li.nav_menu_item
+          nuxt-link(to='/login').nav_menu_item_link
+            font-awesome-icon(icon='sign-in-alt')
+            | &nbsp;ログイン
 </template>
 
 <script>
 export default {
+  computed: {},
   methods: {
+    isLogin() {
+      const session = this.$store.state.session
+      return session.token && session.data ? true : false
+    },
     logout() {
-      console.log('logout')
+      this.$store.commit('session/logout')
+      this.$router.push('/login')
     }
   }
 }

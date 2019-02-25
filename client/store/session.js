@@ -1,13 +1,16 @@
 const state = {
-  user: null
+  token: null,
+  data: null
 }
 
 const mutations = {
   login(state, payload) {
-    state.user = payload
+    state.token = payload.token
+    state.data = payload.data
   },
   logout(state) {
-    state.user = null
+    state.token = null
+    state.data = null
   }
 }
 
