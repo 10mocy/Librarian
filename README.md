@@ -21,6 +21,6 @@ $ npm run generate
 
 ## Contributors
 
-- [神 isGod(TinyKitten)](https://github.com/TinyKitten)
+- [神isGod(TinyKitten)](https://github.com/TinyKitten)
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
