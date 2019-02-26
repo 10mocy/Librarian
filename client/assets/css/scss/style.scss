@@ -148,3 +148,44 @@ $sp: 480px;
     }
   }
 }
+
+/* パンくずリスト */
+.breadcrumb {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #efefef;
+
+  &_item {
+    display: inline-block;
+    font-size: 0.75rem;
+    user-select: none;
+    color: #999999;
+
+    &:hover {
+      color: #ff8800;
+    }
+
+    &:last-child {
+      color: #4b4b4b;
+      font-size: 1rem;
+    }
+
+    &:not(:first-child)::before {
+      padding-left: 5px;
+      content: ' > ';
+      color: #8a8a8a;
+    }
+  }
+}
+
+/* ページヘッダー */
+.pageHeader {
+  margin-bottom: 10px;
+  padding: 5px 15px;
+  border-radius: 10px;
+  font-size: 1.75em;
+  color: #ffffff;
+  background-color: #008ffe;
+  box-shadow: 0 2px 0 #dadada;
+}
