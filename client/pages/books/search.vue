@@ -113,31 +113,4 @@ export default {
     }
   }
 }
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-
-  &_body {
-    & .table_row {
-      background-color: #ffffff;
-      &:nth-child(2n) {
-        background-color: #e0e0e0;
-      }
-
-      &_data {
-        padding: 5px;
-      }
-    }
-  }
-
-  &_row {
-    text-align: center;
-
-    &_header {
-      font-weight: bold;
-      border-bottom: 2px solid #ababab;
-    }
-  }
-}
 </style>
