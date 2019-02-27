@@ -8,14 +8,12 @@
     .pageHeader 蔵書を探す
 
     .row
-      .row_column
-        | 検索クエリ
-      .row_column
-        | 検索結果
-      .row_column
+      .row_sidebar
         .card
-          .card_subHeader サブヘッダー
-          .card_header カードタイトル
+          | クエリ
+      .row_main
+        .card
+          | 検索結果
 
 </template>
 
@@ -45,28 +43,20 @@ export default {
 .row {
   font-size: 0;
 
-  &_column {
+  &_sidebar,
+  &_main {
     display: inline-block;
     vertical-align: top;
     padding: 10px;
     font-size: 1rem;
-    width: 33%;
-  }
-}
-
-.card {
-  padding: 10px;
-  background-color: #f0f0f0;
-  border-radius: 10px;
-
-  &_header {
-    font-size: 1.5em;
-    font-weight: bold;
   }
 
-  &_subHeader {
-    font-size: 0.8em;
-    color: #909090;
+  &_sidebar {
+    width: 25%;
+  }
+
+  &_main {
+    width: 75%;
   }
 }
 </style>

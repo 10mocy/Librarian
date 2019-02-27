@@ -189,3 +189,21 @@ $sp: 480px;
   background-color: #008ffe;
   box-shadow: 0 2px 0 #dadada;
 }
+
+/* カード */
+.card {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+
+  &_header {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  &_subHeader {
+    font-size: 0.8em;
+    color: #909090;
+  }
+}
