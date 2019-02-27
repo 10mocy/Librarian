@@ -49,7 +49,7 @@ export default {
 .nav {
   margin-bottom: 30px;
   padding: 10px;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   border-bottom: 1px solid #e3e3e3;
 
   &_brand,

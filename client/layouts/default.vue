@@ -25,38 +25,6 @@ export default {
 </script>
 
 <style lang="scss">
-html {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-weight: normal;
-  font-size: 18px;
-  border: none;
-  text-decoration: none;
-  background-color: rgba(255, 255, 255, 0);
-  list-style: none;
-}
-
-*:focus {
-  outline: none;
-}
-
-b {
-  font-size: 1em;
-  font-weight: bold;
-}
-
-small {
-  font-size: 0.75em;
-}
 </style>
 
 <style lang="scss" scoped>

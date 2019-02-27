@@ -50,7 +50,7 @@ export default {
   padding: 40px 20px;
   font-size: 3em;
   text-align: center;
-  background-color: #efefef;
+  background-color: #ffffff;
   border-radius: 10px;
 }
 </style>
