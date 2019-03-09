@@ -1,9 +1,9 @@
 <template lang="pug">
   section.pageContainer
 
-    .card
-      h2.card_header Librarianにログイン
-      .card_container
+    .panel
+      h2.panel_header Librarianにログイン
+      .panel_container
         .alert.alert-danger(v-if='error')
           .alert_content {{ error.message }}
 
@@ -96,7 +96,7 @@ export default {
 .pageContainer {
   text-align: center;
 }
-.card {
+.panel {
   display: inline-block;
   width: 480px;
 }

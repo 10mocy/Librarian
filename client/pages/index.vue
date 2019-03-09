@@ -1,5 +1,6 @@
 <template lang="pug">
   section.container(v-if='initialaized')
+    .panel
 </template>
 
 <script>
