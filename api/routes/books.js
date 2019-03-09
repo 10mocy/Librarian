@@ -74,6 +74,7 @@ router.get('/', (req, res) => {
             title: i.title,
             volume: i.volume,
             isDoujin: i.isDoujin,
+            remarks: i.remarks,
             timestamp: i.timestamp
           })
           callback()
@@ -119,6 +120,7 @@ router.post('/search', [check('query').isString()], (req, res) => {
             title: i.title,
             volume: i.volume,
             isDoujin: i.isDoujin,
+            remarks: i.remarks,
             timestamp: i.timestamp
           })
           callback()
@@ -195,6 +197,7 @@ router.post(
                   hash: data.hash,
                   title: data.title,
                   volume: data.volume,
+                  remarks: data.remarks,
                   timestamp: data.timestamp
                 })
               }
