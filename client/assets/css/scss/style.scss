@@ -6,6 +6,7 @@ $sp: 480px;
   }
 }
 
+/* 単独タグ定義 */
 html {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -34,6 +35,16 @@ body {
   outline: none;
 }
 
+b {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+small {
+  font-size: 0.75em;
+}
+
+/* クラス */
 /* フォーム */
 .form {
   width: 100%;
@@ -80,12 +91,59 @@ body {
     margin-bottom: 0;
   }
 
-  &-submit {
+  &-lg {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  &:active {
+    background-color: #292929;
+  }
+
+  &-primary {
     background-color: #ff8800;
 
     &:active {
       background-color: #c46800;
     }
+  }
+
+  &_panel {
+    text-align: left;
+    border: 1px solid #d9d9d9;
+    background-color: #ffffff;
+    color: #000000;
+
+    &:active {
+      background-color: #e9e9e9;
+    }
+
+    &_container {
+      padding: 0 10px;
+    }
+
+    &_header {
+      padding-top: 5px;
+      font-size: 1.5em;
+    }
+
+    &_content {
+    }
+  }
+}
+
+.card {
+  border: 1px solid #ff8800;
+  background-color: #efefef;
+
+  &_header {
+    padding: 5px;
+    background-color: #ff8800;
+    color: #ffffff;
+  }
+
+  &_content {
+    padding: 10px;
   }
 }
 
@@ -96,6 +154,36 @@ body {
   &_header {
     font-size: 1.5em;
     margin-bottom: 10px;
+  }
+}
+
+.status {
+  margin-bottom: 10px;
+  padding: 20px;
+  background-color: #efefef;
+  text-align: center;
+
+  &_content {
+    font-size: 2em;
+  }
+
+  &_data {
+    font-size: 2.5em;
+  }
+}
+
+/* パーツ */
+.label {
+  display: inline-block;
+  padding: 2px 5px;
+  background-color: #3b3b3b;
+  color: #ffffff;
+
+  &-primary {
+    background-color: #ff8800;
+  }
+  &-danger {
+    background-color: #ff0066;
   }
 }
 
@@ -112,7 +200,7 @@ body {
   }
 
   &-danger {
-    background-color: #d44c4c;
+    background-color: #ff0066;
     color: #ffffff;
   }
 }
