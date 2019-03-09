@@ -28,9 +28,9 @@
             nuxt-link(to='/books/search').button.button-lg.button-primary
               font-awesome-icon(icon='search')
               | &nbsp;蔵書を探す
-            button.button.button-lg.button-submit
-              font-awesome-icon(icon='tools')
-              | &nbsp;蔵書を管理する
+            //- button.button.button-lg.button-submit
+            //-   font-awesome-icon(icon='tools')
+            //-   | &nbsp;蔵書を管理する
 </template>
 
 <script>
