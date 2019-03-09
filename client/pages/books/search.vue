@@ -21,11 +21,17 @@
                 label.form_part_label-checkbox(for='includeRemarks') 備考に含む
               label.form_part
                 input.form_part_input(v-model='query.includeDoujin', type='checkbox', id='includeDoujin')
-                label.form_part_label-checkbox(for='includeDoujin') 同人誌を含む
+                label.form_part_label-checkbox(for='includeDoujin') 同人
               span.form_part
                 button(type='submit').button.button-primary 検索
       .row_main
-        | row_main
+        .section-header(v-if='result') 検索結果
+          small ({{ result.length }}件)
+        .button.button_panel(v-if='result !== []', v-for='book in result')
+          .label(:class="{ 'label-danger': book.isDoujin == 0, 'label-primary': book.isDoujin == 1 }") {{ book.isDoujin == 0 ? '商業' : '同人' }}
+          .button_panel_container
+            .button_panel_header {{ book.title }} {{ book.volume != -1 ? book.volume : '' }}
+            .button_panel_content {{ book.remarks }}
 </template>
 
 <script>
@@ -42,6 +48,7 @@ export default {
   data() {
     return {
       initialaized: false,
+      result: null,
       query: {
         query: '',
         includeTitle: true,
@@ -52,6 +59,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      token: 'session/token',
       userData: 'session/data'
     })
   },
@@ -60,7 +68,24 @@ export default {
       requireAuth: 'session/requireAuth'
     }),
     search() {
-      console.log(this.query)
+      axios
+        .post(
+          '/api/books/search',
+          {
+            query: this.query.query,
+            includeTitle: this.query.includeTitle,
+            includeRemarks: this.query.includeRemarks,
+            isDoujin: this.query.includeDoujin
+          },
+          {
+            headers: {
+              'X-Access-Token': this.token
+            }
+          }
+        )
+        .then(res => {
+          this.result = res.data.books
+        })
     }
   }
 }
