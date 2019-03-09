@@ -10,24 +10,20 @@
 
       .row_column
         .status
-          .status_data
-            | 1000
+          .status_data(v-if='result')
+            | {{ result.count }}
             small 冊
           .status_label 蔵書数
 
       .row_column
         .card
           .card_header 最近追加された蔵書
-          .card_content
-            button.button.button_panel
-              .label.label-primary 同人
+          .card_content(v-if='result')
+            .button.button_panel(v-for='book in result.display')
+              .label(:class="{ 'label-danger': book.isDoujin == 0, 'label-primary': book.isDoujin == 1 }") {{ book.isDoujin == 0 ? '商業' : '同人' }}
               .button_panel_container
-                .button_panel_header テスト
-            button.button.button_panel
-              .label.label-danger 商業
-              .button_panel_container
-                .button_panel_header テスト
-      
+                .button_panel_header {{ book.title }} {{ book.volume != -1 ? book.volume : '' }}
+
       .row_column
             nuxt-link(to='/books/search').button.button-lg.button-primary
               font-awesome-icon(icon='search')
@@ -39,18 +35,41 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import axios from 'axios'
 
 export default {
   async beforeMount() {
     this.initialaized = await this.requireAuth()
+    console.log(this.token)
+    axios
+      .get('/api/books', {
+        headers: {
+          'X-Access-Token': this.token
+        }
+      })
+      .then(res => {
+        this.result = {
+          data: res.data.books,
+          count: res.data.books.length,
+          display: null
+        }
+
+        this.result.display = []
+        for (let i = 0; i < 2; i++) {
+          this.result.display.push(this.result.data[i])
+        }
+      })
   },
   data() {
     return {
-      initialaized: false
+      initialaized: false,
+      result: null,
+      count: 0
     }
   },
   computed: {
     ...mapGetters({
+      token: 'session/token',
       userData: 'session/data'
     })
   },

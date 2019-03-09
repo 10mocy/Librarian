@@ -1,6 +1,5 @@
 <template lang="pug">
   section.pageContainer
-
     .panel
       h2.panel_header Librarianにログイン
       .panel_container

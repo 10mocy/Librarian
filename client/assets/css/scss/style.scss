@@ -44,6 +44,13 @@ small {
   font-size: 0.75em;
 }
 
+code {
+  display: inline-block;
+  padding: 1px;
+  font-family: 'consolas';
+  background-color: #efefef;
+}
+
 /* クラス */
 /* フォーム */
 .form {
@@ -57,6 +64,10 @@ small {
 
     &:last-child {
       margin-bottom: 0;
+    }
+
+    &_input[type='checkbox']:checked + &_label-checkbox::after {
+      opacity: 1;
     }
 
     &_label {
@@ -123,10 +134,6 @@ small {
 
       &[type='checkbox'] {
         display: none;
-
-        &:checked + .form_part_label-checkbox::after {
-          opacity: 1;
-        }
       }
     }
   }
@@ -143,6 +150,8 @@ small {
   background-color: #3b3b3b;
 
   cursor: pointer;
+  user-select: none;
+
   transition: 100ms all linear;
 
   &:last-child {
@@ -182,10 +191,11 @@ small {
 
     &_header {
       padding-top: 5px;
-      font-size: 1.5em;
     }
 
     &_content {
+      font-size: 0.9em;
+      color: #888888;
     }
   }
 }
@@ -262,6 +272,10 @@ small {
 }
 
 /* パーツ */
+.section-header {
+  font-size: 1.25em;
+}
+
 .label {
   display: inline-block;
   padding: 2px 5px;
