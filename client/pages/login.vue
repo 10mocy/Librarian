@@ -16,9 +16,6 @@
           input(type='password' v-model='login.password').form_part_input
         span.form_part
           button(type='submit').button.button-submit ログイン
-    //- div(v-if='user')
-    //-   h2 こんにちは、{{ user.displayName }}さん！
-    //-   v-gravatar(:hash='user.gravatarId')
 </template>
 
 <script>

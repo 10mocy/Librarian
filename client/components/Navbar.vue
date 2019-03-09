@@ -9,10 +9,6 @@
           nuxt-link(to='/').nav_menu_item_link
             font-awesome-icon(icon='home').nav_menu_item_icon
         li.nav_menu_item
-          nuxt-link(to='/books/search').nav_menu_item_link
-            font-awesome-icon(icon='search').nav_menu_item_icon
-            span.nav_menu_item_label &nbsp;蔵書検索
-        li.nav_menu_item
           span(@click='logout()').nav_menu_item_link
             font-awesome-icon(icon='sign-out-alt').nav_menu_item_icon
             span.nav_menu_item_label &nbsp;ログアウト
