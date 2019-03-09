@@ -60,7 +60,7 @@ router.get('/', (req, res) => {
 
   // ユーザハッシュから蔵書データを取得
   connection.query(
-    'SELECT * FROM books WHERE ? AND isDelete = 0',
+    'SELECT * FROM books WHERE ? AND isDelete = 0 ORDER BY id DESC',
     {
       userHash: req.token['work.neirowork.librarian.userHash']
     },
