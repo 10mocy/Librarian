@@ -29,7 +29,7 @@
                 .button_panel_header テスト
       
       .row_column
-            button.button.button-lg.button-primary
+            nuxt-link(to='/books/search').button.button-lg.button-primary
               font-awesome-icon(icon='search')
               | &nbsp;蔵書を探す
             button.button.button-lg.button-submit
@@ -39,10 +39,6 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
-const axios = require('axios')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
 
 export default {
   async beforeMount() {

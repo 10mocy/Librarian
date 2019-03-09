@@ -85,6 +85,7 @@ small {
   color: #ffffff;
   background-color: #3b3b3b;
 
+  cursor: pointer;
   transition: 100ms all linear;
 
   &:last-child {
@@ -129,6 +130,37 @@ small {
 
     &_content {
     }
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: 10px;
+  padding: 5px;
+
+  background-color: #efefef;
+
+  &_item {
+    &_link {
+      color: #7c7c7c;
+
+      transition: 100ms all linear;
+
+      &:hover {
+        color: #ff8800;
+      }
+    }
+
+    &:first-child:before {
+      content: '';
+    }
+
+    &:before {
+      content: '/';
+      color: #999999;
+      padding: 0 5px;
+    }
+
+    display: inline-block;
   }
 }
 
