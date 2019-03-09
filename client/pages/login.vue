@@ -98,5 +98,9 @@ export default {
 .panel {
   display: inline-block;
   width: 480px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
 }
 </style>
