@@ -48,6 +48,10 @@ export default {
   background-color: #ffffff;
   border-bottom: 1px solid #e3e3e3;
 
+  @media screen and (max-width: 600px) {
+    margin-bottom: 15px;
+  }
+
   &_brand,
   &_menu {
     display: inline-block;

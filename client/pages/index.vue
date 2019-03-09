@@ -93,5 +93,12 @@ export default {
     font-size: 1rem;
     vertical-align: top;
   }
+
+  @media screen and (max-width: 480px) {
+    &_column {
+      display: block;
+      width: 100%;
+    }
+  }
 }
 </style>

@@ -30,5 +30,9 @@ export default {
 <style lang="scss" scoped>
 .container {
   padding: 0 10%;
+
+  @media screen and (max-width: 480px) {
+    padding: 0 10px;
+  }
 }
 </style>

@@ -110,5 +110,13 @@ export default {
   &_main {
     width: 70%;
   }
+
+  @media screen and (max-width: 600px) {
+    &_side,
+    &_main {
+      display: block;
+      width: 100%;
+    }
+  }
 }
 </style>
