@@ -29,6 +29,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  margin: 10px 0;
   padding: 0 10%;
 
   @media screen and (max-width: 480px) {
