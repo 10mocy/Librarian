@@ -1,0 +1,313 @@
+$sp: 480px;
+
+@mixin sp {
+  @media screen and (max-width: $sp) {
+    @content;
+  }
+}
+
+/* 単独タグ定義 */
+html {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 18px;
+  border: none;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0);
+  list-style: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+b {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+small {
+  font-size: 0.75em;
+}
+
+code {
+  display: inline-block;
+  padding: 1px;
+  font-family: 'consolas';
+  background-color: #efefef;
+}
+
+/* クラス */
+/* フォーム */
+.form {
+  width: 100%;
+
+  &_part {
+    display: block;
+    margin-bottom: 10px;
+    // padding: 0 10px;
+    text-align: left;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &_input[type='checkbox']:checked + &_label-checkbox::after {
+      opacity: 1;
+    }
+
+    &_label {
+      font-size: 0.9em;
+      color: #777777;
+
+      &-checkbox {
+        display: inline-block;
+        padding-left: 20px;
+
+        position: relative;
+
+        vertical-align: middle;
+
+        user-select: none;
+        cursor: pointer;
+
+        &::before {
+          content: '';
+
+          width: 15px;
+          height: 15px;
+
+          display: inline-block;
+          margin-top: -10px;
+
+          position: absolute;
+          top: calc(50% + 1px);
+          left: 0;
+
+          vertical-align: middle;
+
+          border: 1px solid #d9d9d9;
+          background-color: #ffffff;
+        }
+
+        &::after {
+          display: inline-block;
+          content: '';
+
+          position: absolute;
+          top: calc(50% - 7px);
+          left: 5px;
+
+          width: 5px;
+          height: 9px;
+          transform: rotate(45deg);
+
+          border-right: 2px solid #ff8800;
+          border-bottom: 2px solid #ff8800;
+
+          opacity: 0;
+        }
+      }
+    }
+
+    &_input {
+      width: 100%;
+      padding: 5px;
+
+      border: 1px solid #d9d9d9;
+      background-color: #ffffff;
+      font-family: inherit;
+
+      &[type='checkbox'] {
+        display: none;
+      }
+    }
+  }
+}
+
+.button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  text-align: center;
+  color: #ffffff;
+  background-color: #3b3b3b;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: 100ms all linear;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &-lg {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  &:active {
+    background-color: #292929;
+  }
+
+  &-primary {
+    background-color: #ff8800;
+
+    &:active {
+      background-color: #c46800;
+    }
+  }
+
+  &_panel {
+    text-align: left;
+    border: 1px solid #d9d9d9;
+    background-color: #ffffff;
+    color: #000000;
+
+    &:active {
+      background-color: #e9e9e9;
+    }
+
+    &_container {
+      padding: 0 10px;
+    }
+
+    &_header {
+      padding-top: 5px;
+    }
+
+    &_content {
+      font-size: 0.9em;
+      color: #888888;
+    }
+  }
+}
+
+.breadcrumbs {
+  margin-bottom: 10px;
+  padding: 5px;
+
+  background-color: #efefef;
+
+  &_item {
+    &_link {
+      color: #7c7c7c;
+
+      transition: 100ms all linear;
+
+      &:hover {
+        color: #ff8800;
+      }
+    }
+
+    &:first-child:before {
+      content: '';
+    }
+
+    &:before {
+      content: '/';
+      color: #999999;
+      padding: 0 5px;
+    }
+
+    display: inline-block;
+  }
+}
+
+.card {
+  margin-bottom: 10px;
+
+  border: 1px solid #ff8800;
+  background-color: #efefef;
+
+  &_header {
+    padding: 5px;
+    background-color: #ff8800;
+    color: #ffffff;
+  }
+
+  &_content {
+    padding: 10px;
+  }
+}
+
+.panel {
+  margin-bottom: 10px;
+
+  background-color: #efefef;
+  padding: 20px;
+
+  &_header {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+}
+
+.status {
+  margin-bottom: 10px;
+  padding: 20px;
+  background-color: #efefef;
+  text-align: center;
+
+  &_content {
+    font-size: 2em;
+  }
+
+  &_data {
+    font-size: 2.5em;
+  }
+}
+
+/* パーツ */
+.section-header {
+  font-size: 1.25em;
+}
+
+.label {
+  display: inline-block;
+  padding: 2px 5px;
+  background-color: #3b3b3b;
+  color: #ffffff;
+
+  &-primary {
+    background-color: #ff8800;
+  }
+  &-danger {
+    background-color: #ff0066;
+  }
+}
+
+.alert {
+  margin-bottom: 10px;
+  padding: 10px;
+
+  text-align: left;
+  background-color: #3b3b3b;
+  color: #ffffff;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &-danger {
+    background-color: #ff0066;
+    color: #ffffff;
+  }
+}

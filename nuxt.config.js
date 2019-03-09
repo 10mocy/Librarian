@@ -25,12 +25,21 @@ module.exports = {
   /*
   ** Global CSS
   */
-  css: [],
+  css: [
+    '@fortawesome/fontawesome-free-webfonts',
+    '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css',
+    '@fortawesome/fontawesome-free-webfonts/css/fa-regular.css',
+    '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css',
+    '~/assets/css/scss/style.scss'
+  ],
 
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [
+    '~/plugins/vue-gravatar',
+    { src: '~/plugins/persistedState', ssr: false }
+  ],
 
   /*
   ** Nuxt.js modules
@@ -38,8 +47,7 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt'
+    'nuxt-fontawesome'
   ],
   /*
   ** Axios module configuration
@@ -56,6 +64,15 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {}
+  },
+
+  fontawesome: {
+    imports: [
+      {
+        set: '@fortawesome/free-solid-svg-icons',
+        icons: ['fas']
+      }
+    ]
   },
 
   serverMiddleware: ['~~/api']
