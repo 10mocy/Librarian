@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  background-color: #efefef;
+  background-color: #ffffff;
 }
 
 *,
@@ -34,243 +34,85 @@ body {
   outline: none;
 }
 
-b {
-  font-size: 1em;
-  font-weight: bold;
-}
-
-small {
-  font-size: 0.75em;
-}
-
-/* パネル型ボタン */
-.panelButton {
-  font-size: 0;
-
-  &_wrap {
-    display: inline-block;
-    vertical-align: top;
-    width: 50%;
-    font-size: 1rem;
-    color: #222222;
-
-    @include sp {
-      display: block;
-      width: 100%;
-    }
-
-    &_item {
-      display: block;
-      margin: 10px;
-      padding: 20px;
-      background-color: #ffffff;
-      border-bottom: 2px solid #c9c9c9;
-      border-radius: 10px;
-      user-select: none;
-      cursor: pointer;
-
-      &_icon,
-      &_label {
-        display: inline-block;
-        vertical-align: middle;
-      }
-
-      &_icon {
-        font-size: 2em;
-      }
-
-      &_label {
-        padding-left: 10px;
-        font-size: 1.25em;
-        font-weight: bold;
-      }
-
-      &:active {
-        background-color: #c9c9c9;
-        border-bottom: 2px solid #ffffff;
-      }
-
-      &-success {
-        color: #ffffff;
-        background-color: #008ffe;
-        border-bottom: 2px solid #037cd8;
-        &:active {
-          background-color: #037cd8;
-          border-bottom: 2px solid #008ffe;
-        }
-      }
-    }
-  }
-}
-
-/* パネル */
-.panel {
-  display: inline-block;
-  border: 1px solid #ffffff;
-  border-radius: 10px;
-  background-color: #f7f7f7;
-  box-shadow: 0 2px 0 #d6d6d6;
-  max-width: 470px;
-  padding: 20px;
-  text-align: left;
-
-  @include sp {
-    display: block;
-    max-width: 100%;
-  }
-
-  &_header {
-    font-size: 1.25em;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-}
-
-/* アラート */
-.alert {
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 10px;
-
-  &-danger {
-    background-color: #e44646;
-    color: #ffffff;
-  }
-}
-
 /* フォーム */
 .form {
+  width: 100%;
   &_part {
     display: block;
     margin-bottom: 10px;
+    // padding: 0 10px;
+    text-align: left;
 
-    &_label,
-    &_input,
-    &_button {
-      width: 100%;
-      display: inline-block;
+    &:last-child {
+      margin-bottom: 0;
     }
 
     &_label {
-      font-size: 0.75em;
-      color: #666666;
+      font-size: 0.9em;
+      color: #777777;
     }
 
     &_input {
+      width: 100%;
       padding: 5px;
-      font-weight: bold;
-      background-color: #fdfdfd;
-      border-bottom: 2px solid #afafaf;
+
+      border: 1px solid #d9d9d9;
+      background-color: #ffffff;
+      font-family: inherit;
       font-size: 1.5em;
     }
   }
 }
 
-/* ボタン */
 .button {
+  display: block;
   width: 100%;
-  padding: 10px 5px;
-  border-radius: 10px;
-  transition: all linear 100ms;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  text-align: center;
+  color: #ffffff;
+  background-color: #3b3b3b;
+
+  transition: 100ms all linear;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   &-submit {
-    color: #ffffff;
-    border-top: 1px solid #01c51b;
-    background-color: #00ad17;
-    border-bottom: 1px solid #008512;
+    background-color: #ff8800;
+
     &:active {
-      border-top: 1px solid #008512;
-      background-color: #019915;
-      border-bottom: 1px solid #01c51b;
+      background-color: #c46800;
     }
   }
 }
 
-/* パンくずリスト */
-.breadcrumb {
-  margin-bottom: 10px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  background-color: #ffffff;
-
-  &_item {
-    display: inline-block;
-    font-size: 0.75rem;
-    user-select: none;
-    color: #999999;
-
-    &:hover {
-      color: #ff8800;
-    }
-
-    &:last-child {
-      color: #4b4b4b;
-      font-size: 1rem;
-    }
-
-    &:not(:first-child)::before {
-      padding-left: 5px;
-      content: ' > ';
-      color: #8a8a8a;
-    }
-  }
-}
-
-/* ページヘッダー */
-.pageHeader {
-  margin-bottom: 10px;
-  padding: 5px 15px;
-  border-radius: 10px;
-  font-size: 1.75em;
-  color: #ffffff;
-  background-color: #008ffe;
-  box-shadow: 0 2px 0 #dadada;
-}
-
-/* カード */
 .card {
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #ffffff;
-  border-bottom: 2px solid #c9c9c9;
-  border-radius: 10px;
+  background-color: #efefef;
+  padding: 20px;
 
   &_header {
     font-size: 1.5em;
-    font-weight: bold;
-  }
-
-  &_subHeader {
-    font-size: 0.8em;
-    color: #909090;
+    margin-bottom: 10px;
   }
 }
 
-/* テーブル */
+.alert {
+  margin-bottom: 10px;
+  padding: 10px;
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
+  text-align: left;
+  background-color: #3b3b3b;
+  color: #ffffff;
 
-  &_body {
-    & .table_row {
-      background-color: #ffffff;
-      &:nth-child(2n) {
-        background-color: #e0e0e0;
-      }
-
-      &_data {
-        padding: 5px;
-      }
-    }
+  &:last-child {
+    margin-bottom: 0;
   }
 
-  &_row {
-    text-align: center;
-
-    &_header {
-      font-weight: bold;
-      border-bottom: 2px solid #ababab;
-    }
+  &-danger {
+    background-color: #d44c4c;
+    color: #ffffff;
   }
 }

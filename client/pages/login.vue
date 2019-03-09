@@ -1,21 +1,21 @@
 <template lang="pug">
   section.pageContainer
 
-    .panel
-      h2.panel_header Librarianにログイン
-      .panel_container
+    .card
+      h2.card_header Librarianにログイン
+      .card_container
         .alert.alert-danger(v-if='error')
           .alert_content {{ error.message }}
 
-      form(@submit.prevent='authorize()').form
-        span.form_part
-          label.form_part_label ログインID
-          input(type='text', v-model='login.loginId').form_part_input
-        span.form_part
-          label.form_part_label パスワード
-          input(type='password' v-model='login.password').form_part_input
-        span.form_part
-          button(type='submit').button.button-submit ログイン
+        form(@submit.prevent='authorize()').form
+          span.form_part
+            label.form_part_label ログインID
+            input.form_part_input(type='text', pattern='^[0-9a-zA-Z]+$', v-model='login.loginId')
+          span.form_part
+            label.form_part_label パスワード
+            input.form_part_input(type='password' v-model='login.password')
+          span.form_part
+            button(type='submit').button.button-submit ログイン
 </template>
 
 <script>
@@ -95,5 +95,9 @@ export default {
 <style lang="scss" scoped>
 .pageContainer {
   text-align: center;
+}
+.card {
+  display: inline-block;
+  width: 480px;
 }
 </style>
