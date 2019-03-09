@@ -101,6 +101,11 @@ export default {
     display: inline-block;
     vertical-align: top;
     font-size: 1rem;
+
+    @media screen and (max-width: 600px) {
+      display: block;
+      width: 100%;
+    }
   }
 
   &_side {
@@ -109,14 +114,6 @@ export default {
 
   &_main {
     width: 70%;
-  }
-
-  @media screen and (max-width: 600px) {
-    &_side,
-    &_main {
-      display: block;
-      width: 100%;
-    }
   }
 }
 </style>
