@@ -9,18 +9,18 @@
       .row_side
         .panel
           .panel_container
-            form.form
+            form.form(@submit.prevent='search()')
               span.form_part
                 label.form_part_label 検索クエリ
-                input.form_part_input(type='search')
-              label.form_part.form_part
-                input.form_part_input(type='checkbox', id='includeTitle')
+                input.form_part_input(v-model='query.query', type='search')
+              label.form_part
+                input.form_part_input(v-model='query.includeTitle', type='checkbox', id='includeTitle')
                 label.form_part_label-checkbox(for='includeTitle') タイトルに含む
-              label.form_part.form_part
-                input.form_part_input(type='checkbox', id='includeRemarks')
+              label.form_part
+                input.form_part_input(v-model='query.includeRemarks', type='checkbox', id='includeRemarks')
                 label.form_part_label-checkbox(for='includeRemarks') 備考に含む
-              label.form_part.form_part
-                input.form_part_input(type='checkbox', id='includeDoujin')
+              label.form_part
+                input.form_part_input(v-model='query.includeDoujin', type='checkbox', id='includeDoujin')
                 label.form_part_label-checkbox(for='includeDoujin') 同人誌を含む
               span.form_part
                 button(type='submit').button.button-primary 検索
@@ -41,7 +41,13 @@ export default {
   },
   data() {
     return {
-      initialaized: false
+      initialaized: false,
+      query: {
+        query: '',
+        includeTitle: true,
+        includeRemarks: true,
+        includeDoujin: true
+      }
     }
   },
   computed: {
@@ -52,7 +58,10 @@ export default {
   methods: {
     ...mapActions({
       requireAuth: 'session/requireAuth'
-    })
+    }),
+    search() {
+      console.log(this.query)
+    }
   }
 }
 </script>

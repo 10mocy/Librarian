@@ -66,8 +66,11 @@ small {
       &-checkbox {
         display: inline-block;
         padding-left: 20px;
+
         position: relative;
+
         vertical-align: middle;
+
         user-select: none;
         cursor: pointer;
 
@@ -102,8 +105,8 @@ small {
           height: 9px;
           transform: rotate(45deg);
 
-          border-right: 2px solid #000000;
-          border-bottom: 2px solid #000000;
+          border-right: 2px solid #ff8800;
+          border-bottom: 2px solid #ff8800;
 
           opacity: 0;
         }
