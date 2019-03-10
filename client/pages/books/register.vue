@@ -24,7 +24,7 @@
               label.form_part
                 input.form_part_input(type='checkbox', id='isSingle', v-model='query.isSingle')
                 label.form_part_label-checkbox(for='isSingle') 単発
-              input.form_part_input(type='number', v-model='query.volume')
+              input.form_part_input(v-if='!query.isSingle', type='text', v-model='query.volume')
             span.form_part
               label.form_part_label ISBN
               input.form_part_input(type='text', v-model='query.isbn')
@@ -60,7 +60,7 @@ export default {
         volume: '',
         isbn: '',
         remarks: '',
-        isSingle: false,
+        isSingle: true,
         isDoujin: false
       }
     }
@@ -104,7 +104,7 @@ export default {
             volume: '',
             isbn: '',
             remarks: '',
-            isSingle: false,
+            isSingle: true,
             isDoujin: false
           }
         })
