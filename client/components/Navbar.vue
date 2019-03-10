@@ -29,9 +29,6 @@ export default {
       sessionData: 'session/data'
     })
   },
-  mounted() {
-    this.unchi = true
-  },
   methods: {
     logout() {
       this.$store.commit('session/logout')
