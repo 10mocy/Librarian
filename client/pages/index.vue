@@ -25,13 +25,13 @@
                 .button_panel_header {{ book.title }}{{ book.volume != -1 ? ` ${book.volume}` : '' }}
 
       .row_column
-            nuxt-link(to='/dashboard/search').button.button-lg.button-primary
+            nuxt-link(to='/dashboard/search').button.button-block.button-lg.button-primary
               font-awesome-icon(icon='search')
               | &nbsp;蔵書検索
-            nuxt-link(to='/dashboard/register').button.button-lg
+            nuxt-link(to='/dashboard/register').button.button-block.button-lg
               font-awesome-icon(icon='book-medical')
               | &nbsp;書籍登録
-            //- button.button.button-lg.button-submit
+            //- button.button.button-block.button-lg.button-submit
             //-   font-awesome-icon(icon='tools')
             //-   | &nbsp;蔵書を管理する
 </template>

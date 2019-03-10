@@ -35,7 +35,7 @@
                 label.form_part_label-checkbox(for='isDoujin') 同人
               input.form_part_input(type='text', v-model='query.remarks')
             span.form_part
-              button(type='submit').button.button-primary 登録
+              button(type='submit').button.button-block.button-primary 登録
 </template>
 
 <script>

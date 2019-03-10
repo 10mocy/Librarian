@@ -23,7 +23,7 @@
                 input.form_part_input(v-model='query.includeDoujin', type='checkbox', id='includeDoujin')
                 label.form_part_label-checkbox(for='includeDoujin') 同人
               span.form_part
-                button(type='submit').button.button-primary 検索
+                button(type='submit').button.button-block.button-primary 検索
       .row_main
         .section-header(v-if='result') 検索結果
           small ({{ result.length }}件)

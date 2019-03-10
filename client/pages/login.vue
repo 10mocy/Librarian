@@ -14,7 +14,7 @@
             label.form_part_label パスワード
             input.form_part_input(type='password' v-model='login.password')
           span.form_part
-            button(type='submit').button.button-primary ログイン
+            button(type='submit').button.button-block.button-primary ログイン
 </template>
 
 <script>
