@@ -37,9 +37,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 
-const axios = require('axios')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
+import axios from 'axios'
 
 export default {
   async beforeMount() {
