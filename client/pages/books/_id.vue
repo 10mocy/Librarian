@@ -17,11 +17,28 @@
 
       .row
         .row_main
-          | row_main
+          table.table
+            tr.table_row
+              th.table_row_header 備考
+              td.table_row_data {{ book.remarks === '' ? '備考なし' : book.remarks }}
+            tr.table_row
+              th.table_row_header ISBN
+              td.table_row_data 未実装
         .row_side
-          button.button.button-lg.button-danger(@click='remove()')
+          button.button.button-block.button-lg.button-danger(@click='showModal = true')
             font-awesome-icon(icon='trash')
             | &nbsp;書籍を削除する
+
+      transition(name='fade')
+        .modalWrap(v-if='showModal')
+          .modalWrap_modal
+            .modalWrap_modal_header 削除確認
+            .modalWrap_modal_content 「{{ book.title }}{{ book.volume != -1 ? ` ${book.volume}` : '' }}」を削除します。
+            .modalWrap_modal_footer
+              button.button.button-danger(@click='remove()')
+                font-awesome-icon(icon='trash')
+                | &nbsp;削除
+              button.button(@click='showModal = false') キャンセル
 </template>
 
 <script>
@@ -34,7 +51,8 @@ export default {
       initialaized: false,
       error: null,
       status: null,
-      book: null
+      book: null,
+      showModal: false
     }
   },
   async beforeMount() {
@@ -80,10 +98,10 @@ export default {
           }
         })
         .then(res => {
-          console.log(res)
           this.status = {
             message: '削除に成功しました'
           }
+          this.showModal = false
         })
         .catch(err => {
           this.error = {
@@ -107,6 +125,7 @@ export default {
   &_side,
   &_main {
     display: inline-block;
+    padding: 0 10px;
 
     vertical-align: top;
     font-size: 1rem;
@@ -125,5 +144,16 @@ export default {
   &_side {
     width: 30%;
   }
+}
+
+/* トランジション */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 250ms;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
