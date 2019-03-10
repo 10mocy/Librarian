@@ -92,6 +92,14 @@ export default {
             title: res.data.title,
             volume: res.data.volume
           }
+          this.query = {
+            title: '',
+            volume: '',
+            isbn: '',
+            remarks: '',
+            isSingle: false,
+            isDoujin: false
+          }
         })
         .catch(err => {
           console.log(err)
