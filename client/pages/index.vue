@@ -43,7 +43,6 @@ import axios from 'axios'
 export default {
   async beforeMount() {
     this.initialaized = await this.requireAuth()
-    console.log(this.token)
     axios
       .get('/api/books', {
         headers: {
