@@ -103,7 +103,7 @@ router.post('/search', [check('query').isString()], (req, res) => {
 
   // 検索クエリでタイトルと備考を検索する。(削除済みは無視)
   connection.query(
-    'SELECT * FROM books WHERE title LIKE ? OR remarks LIKE ? AND userHash = ? AND isDelete = 0',
+    'SELECT * FROM books WHERE title LIKE ? OR remarks LIKE ? AND userHash = ? AND isDelete = 0 ORDER BY id DESC',
     [
       `%${req.body.query}%`,
       `%${req.body.query}%`,
