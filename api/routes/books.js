@@ -141,9 +141,18 @@ router.post('/search', [check('query').isString()], (req, res) => {
 router.post(
   '/',
   [
-    check('title').isString(),
-    check('volume').isString(),
-    check('isDoujin').isInt(),
+    check('title')
+      .isString()
+      .not()
+      .isEmpty(),
+    check('volume')
+      .isString()
+      .not()
+      .isEmpty(),
+    check('isDoujin')
+      .isInt()
+      .not()
+      .isEmpty(),
     check('remarks').isString()
   ],
   (req, res) => {
