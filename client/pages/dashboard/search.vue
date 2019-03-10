@@ -23,23 +23,20 @@
                 input.form_part_input(v-model='query.includeDoujin', type='checkbox', id='includeDoujin')
                 label.form_part_label-checkbox(for='includeDoujin') 同人
               span.form_part
-                button(type='submit').button.button-primary 検索
+                button(type='submit').button.button-block.button-primary 検索
       .row_main
         .section-header(v-if='result') 検索結果
           small ({{ result.length }}件)
-        .button.button_panel(v-if='result !== []', v-for='book in result')
+        nuxt-link.button.button-block.button_panel(v-if='result !== []', v-for='(book, index) in result', :key='index', :to='`/books/${book.hash}`')
           .label(:class="{ 'label-danger': book.isDoujin == 0, 'label-primary': book.isDoujin == 1 }") {{ book.isDoujin == 0 ? '商業' : '同人' }}
           .button_panel_container
-            .button_panel_header {{ book.title }} {{ book.volume != -1 ? book.volume : '' }}
+            .button_panel_header {{ book.title }}{{ book.volume != -1 ? ` ${book.volume}` : '' }}
             .button_panel_content {{ book.remarks }}
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
-const axios = require('axios')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
+import axios from 'axios'
 
 export default {
   async beforeMount() {

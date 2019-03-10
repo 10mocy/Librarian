@@ -6,75 +6,54 @@
         .alert.alert-danger(v-if='error')
           .alert_content {{ error.message }}
 
-        form(@submit.prevent='authorize()').form
+        form(@submit.prevent='login()').form
           span.form_part
             label.form_part_label ログインID
-            input.form_part_input(type='text', pattern='^[0-9a-zA-Z]+$', v-model='login.loginId')
+            input.form_part_input(type='text', pattern='^[0-9a-zA-Z]+$', v-model='loginId')
           span.form_part
             label.form_part_label パスワード
-            input.form_part_input(type='password' v-model='login.password')
+            input.form_part_input(type='password' v-model='password')
           span.form_part
-            button(type='submit').button.button-primary ログイン
+            button(type='submit').button.button-block.button-primary ログイン
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-
-const axios = require('axios')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
 
 export default {
   beforeMount() {
     if (this.isLoggedin) {
       this.$router.replace('/')
     }
-    this.requireAuth()
   },
-  mounted() {},
   computed: {
     ...mapGetters({
+      userData: 'session/data',
       isLoggedin: 'session/isLoggedIn'
     })
   },
   data() {
     return {
       user: null,
-      login: {
-        loginId: '',
-        password: ''
-      },
+      loginId: '',
+      password: '',
       error: null
     }
   },
   methods: {
     ...mapActions({
-      requireAuth: 'session/requireAuth'
+      requireAuth: 'session/requireAuth',
+      authorize: 'session/authorize'
     }),
-    authorize() {
+    login() {
       this.error = null
 
-      const passwordHash = crypto
-        .createHash('sha256')
-        .update(this.login.password)
-        .digest('hex')
-      axios
-        .post('/api/accounts/jwt', {
-          loginId: this.login.loginId,
-          password: passwordHash
-        })
+      this.authorize({
+        loginId: this.loginId,
+        password: this.password
+      })
         .then(res => {
-          const token = jwt.decode(res.data.token)
-          this.user = {
-            displayName: token['work.neirowork.librarian.displayName'],
-            gravatarId: token['work.neirowork.librarian.gravatarId'],
-            userHash: token['work.neirowork.librarian.userHash']
-          }
-          this.$store.commit('session/login', {
-            token: res.data.token,
-            data: this.user
-          })
-          this.$router.push('/')
+          this.$router.replace('/')
         })
         .catch(err => {
           this.error = {
