@@ -30,10 +30,9 @@ export default {
     })
   },
   methods: {
-    logout() {
-      this.$store.commit('session/logout')
-      this.$router.push('/login')
-    }
+    ...mapActions({
+      logout: 'session/logout'
+    })
   }
 }
 </script>

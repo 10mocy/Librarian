@@ -14,11 +14,13 @@ export default {
     Navbar
   },
   async beforeMount() {
+    this.restoreToken()
     this.requireAuth()
   },
   methods: {
     ...mapActions({
-      requireAuth: 'session/requireAuth'
+      requireAuth: 'session/requireAuth',
+      restoreToken: 'session/restoreToken'
     })
   }
 }
@@ -31,7 +33,6 @@ export default {
 .container {
   margin: 10px 0;
   padding: 0 10%;
-
   @media screen and (max-width: 480px) {
     padding: 0 10px;
   }
