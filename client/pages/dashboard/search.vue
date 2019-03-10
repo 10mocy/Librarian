@@ -27,7 +27,7 @@
       .row_main
         .section-header(v-if='result') 検索結果
           small ({{ result.length }}件)
-        nuxt-link.button.button_panel(v-if='result !== []', v-for='(book, index) in result', :key='index', :to='`/books/${book.hash}`')
+        nuxt-link.button.button-block.button_panel(v-if='result !== []', v-for='(book, index) in result', :key='index', :to='`/books/${book.hash}`')
           .label(:class="{ 'label-danger': book.isDoujin == 0, 'label-primary': book.isDoujin == 1 }") {{ book.isDoujin == 0 ? '商業' : '同人' }}
           .button_panel_container
             .button_panel_header {{ book.title }}{{ book.volume != -1 ? ` ${book.volume}` : '' }}
