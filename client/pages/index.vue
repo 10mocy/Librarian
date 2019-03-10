@@ -19,7 +19,7 @@
         .card
           .card_header 最近追加された蔵書
           .card_content(v-if='result')
-            nuxt-link.button.button_panel(v-for='(book, index) in result.display', :key='index', :to="`/books/${book.hash}`")
+            nuxt-link.button.button-block.button_panel(v-for='(book, index) in result.display', :key='index', :to="`/books/${book.hash}`")
               .label(:class="{ 'label-danger': book.isDoujin == 0, 'label-primary': book.isDoujin == 1 }") {{ book.isDoujin == 0 ? '商業' : '同人' }}
               .button_panel_container
                 .button_panel_header {{ book.title }}{{ book.volume != -1 ? ` ${book.volume}` : '' }}
