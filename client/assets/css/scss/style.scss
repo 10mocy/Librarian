@@ -276,12 +276,19 @@ code {
 }
 
 /* パーツ */
+.page-header {
+  padding: 5px 10px;
+  font-size: 1.5em;
+  background-color: #afafaf;
+  color: #ffffff;
+}
 .section-header {
   font-size: 1.25em;
 }
 
 .label {
   display: inline-block;
+  margin-right: 3px;
   padding: 2px 5px;
   background-color: #3b3b3b;
   color: #ffffff;
