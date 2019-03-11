@@ -1,7 +1,7 @@
-const crypto = require('crypto')
+import crypto from 'crypto'
 
-const mysqlConfig = require('../mysql.config')
-const mysql = require('mysql')
+import mysqlConfig from '../mysql.config'
+import mysql from 'mysql'
 const connection = mysql.createConnection(mysqlConfig)
 
 connection.query('SELECT * FROM books', (err, results) => {

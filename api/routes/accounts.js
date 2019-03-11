@@ -1,15 +1,15 @@
-const express = require('express')
+import express from 'express'
 const router = express.Router()
 
-const librarianConfig = require('../../librarian.config')
-const mysqlConfig = require('../../mysql.config')
+import librarianConfig from '../../librarian.config'
+import mysqlConfig from '../../mysql.config'
 
-const mysql = require('mysql')
+import mysql from 'mysql'
 const connection = mysql.createConnection(mysqlConfig)
 
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
-const { check, validationResult } = require('express-validator/check')
+import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
+import { check, validationResult } from 'express-validator/check'
 
 // [POST] アカウントを作成する
 router.post(

@@ -1,10 +1,11 @@
-const pkg = require('./package')
+import pkg from './package'
 
 const meta = {
   title: 'Librarian',
   description: 'Librarian',
   themeColor: '#ff8800'
 }
+
 module.exports = {
   mode: 'spa',
   srcDir: './client',
