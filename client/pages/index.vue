@@ -59,6 +59,10 @@ export default {
 
         this.result.display = []
         for (let i = 0; i < 2; i++) {
+          const data = this.result.data[i]
+          if (!data) {
+            return
+          }
           this.result.display.push(this.result.data[i])
         }
       })
