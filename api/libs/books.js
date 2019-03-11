@@ -149,6 +149,28 @@ export const create = (userHash, title, volume, isDoujin, remarks) =>
     })
   })
 
+export const edit = (userHash, bookHash, title, volume, remarks, isbn) =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return reject(err)
+      }
+
+      connection.query(
+        'UPDATE books SET title = ?, volume = ?, remarks = ? WHERE hash = ? AND userHash = ?',
+        [title, volume, remarks, bookHash, userHash],
+        (err, results) => {
+          connection.release()
+          if (err) {
+            return reject(err)
+          }
+
+          return resolve(true)
+        }
+      )
+    })
+  })
+
 export const setHash = (bookId, bookHash) =>
   new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
