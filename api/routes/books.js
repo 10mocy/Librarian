@@ -23,7 +23,6 @@ router.use((req, res, next) => {
     return res.status(401).json({
       status: false,
       errors: {
-        code: '001-0003',
         enum: 'REQUIRE_AUTHENTICATION',
         message: '認証が必要です。'
       }
@@ -36,7 +35,6 @@ router.use((req, res, next) => {
       return res.status(401).json({
         status: false,
         errors: {
-          code: '001-0004',
           enum: 'INVALID_TOKEN',
           message: 'トークンが無効です。'
         }
@@ -243,7 +241,6 @@ router.get('/:bookHash', [check('bookHash').isString()], (req, res) => {
           return res.status(404).json({
             status: false,
             errors: {
-              code: '002-0001',
               enum: 'BOOK_NOT_FOUND',
               message: '指定された蔵書が見つかりません。'
             }
@@ -291,7 +288,6 @@ router.delete('/:bookHash', [check('bookHash').isString()], (req, res) => {
           return res.status(404).json({
             status: false,
             errors: {
-              code: '002-0001',
               enum: 'BOOK_NOT_FOUND',
               message: '指定された蔵書が見つかりません。'
             }
