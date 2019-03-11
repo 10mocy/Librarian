@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    nuxt.container
+    nuxt
 </template>
 
 <script>
@@ -24,7 +24,4 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.container {
-  margin: 10px;
-}
 </style>
