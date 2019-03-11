@@ -1,5 +1,10 @@
 const pkg = require('./package')
 
+const meta = {
+  title: 'Librarian',
+  description: 'Librarian',
+  themeColor: '#ff8800'
+}
 module.exports = {
   mode: 'spa',
   srcDir: './client',
@@ -12,7 +17,8 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: meta.description },
+      { name: 'theme-color', content: meta.themeColor }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
@@ -20,7 +26,7 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: meta.themeColor },
 
   /*
   ** Global CSS
@@ -44,8 +50,28 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/pwa',
     'nuxt-fontawesome'
   ],
+
+  meta: {
+    mobileAppIOS: true,
+    name: meta.title,
+    description: meta.description,
+    theme_color: meta.themeColor,
+    lang: 'ja'
+  },
+
+  manifest: {
+    name: meta.title,
+    short_name: meta.title,
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    description: meta.description,
+    lang: 'ja'
+  },
+
   /*
   ** Axios module configuration
   */
