@@ -10,7 +10,7 @@
         th.printTable_row_header 備考
       tr.printTable_row(v-if='books', v-for='(book, index) in books', :to='index')
         td.printTable_row_data {{ book.title }}
-        td.printTable_row_data {{ book.volume }}
+        td.printTable_row_data {{ book.volume == '-1' ? '単発' : book.volume }}
         td.printTable_row_data {{ book.isDoujin == '0' ? '商業' : '同人' }}
         td.printTable_row_data {{ book.remarks }}
 </template>
