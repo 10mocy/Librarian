@@ -30,6 +30,7 @@ export const get = (userHash, bookHash) =>
             hash: data.hash,
             title: data.title,
             volume: data.volume,
+            isDoujin: data.isDoujin,
             remarks: data.remarks,
             timestamp: data.timestamp
           })
