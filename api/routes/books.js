@@ -1,3 +1,5 @@
+import booksModule from '../libs/books'
+
 import async from 'async'
 
 import express from 'express'
@@ -48,51 +50,18 @@ router.use((req, res, next) => {
 })
 
 // [🔒GET] 蔵書リストを取得する
-router.get('/', (req, res) => {
-  // res.json({
-  //   status: true,
-  //   message: 'Hello world!'
-  // })
-
-  pool.getConnection((err, connection) => {
-    let books = []
-    // ユーザハッシュから蔵書データを取得
-    connection.query(
-      'SELECT * FROM books WHERE ? AND isDelete = 0 ORDER BY id DESC',
-      {
-        userHash: req.token['work.neirowork.librarian.userHash']
-      },
-      (err, result, fields) => {
-        // 返却データの作成
-        async.each(
-          result,
-          (i, callback) => {
-            books.push({
-              hash: i.hash,
-              title: i.title,
-              volume: i.volume,
-              isDoujin: i.isDoujin,
-              remarks: i.remarks,
-              timestamp: i.timestamp
-            })
-            callback()
-          },
-          err => {
-            // 返却
-            return res.json({
-              status: true,
-              books
-            })
-          }
-        )
-      }
-    )
-    connection.release()
+router.get('/', async (req, res) => {
+  const books = await booksModule.getAll(
+    req.token['work.neirowork.librarian.userHash']
+  )
+  return res.json({
+    status: true,
+    books
   })
 })
 
 // [🔒POST] 蔵書を検索する
-router.post('/search', [check('query').isString()], (req, res) => {
+router.post('/search', [check('query').isString()], async (req, res) => {
   const validationErrors = validationResult(req)
   if (validationErrors.array().length !== 0) {
     return res
@@ -100,42 +69,14 @@ router.post('/search', [check('query').isString()], (req, res) => {
       .json({ status: false, errors: validationErrors.array() })
   }
 
-  pool.getConnection((err, connection) => {
-    // 検索クエリでタイトルと備考を検索する。(削除済みは無視)
-    connection.query(
-      'SELECT * FROM books WHERE ( title LIKE ? OR remarks LIKE ? ) AND userHash = ? AND isDelete = 0 ORDER BY id DESC',
-      [
-        `%${req.body.query}%`,
-        `%${req.body.query}%`,
-        req.token['work.neirowork.librarian.userHash']
-      ],
-      (err, results) => {
-        // 返却データの作成
-        let books = []
-        async.each(
-          results,
-          (i, callback) => {
-            books.push({
-              hash: i.hash,
-              title: i.title,
-              volume: i.volume,
-              isDoujin: i.isDoujin,
-              remarks: i.remarks,
-              timestamp: i.timestamp
-            })
-            callback()
-          },
-          err => {
-            // 返却
-            return res.json({
-              status: true,
-              books
-            })
-          }
-        )
-      }
-    )
-    connection.release()
+  const books = await booksModule.search(
+    req.token['work.neirowork.librarian.userHash'],
+    req.body.query
+  )
+
+  return res.json({
+    status: true,
+    books
   })
 })
 
@@ -157,7 +98,7 @@ router.post(
       .isEmpty(),
     check('remarks').isString()
   ],
-  (req, res) => {
+  async (req, res) => {
     const validationErrors = validationResult(req)
     console.log(validationErrors.array())
     if (validationErrors.array().length !== 0) {
@@ -166,65 +107,56 @@ router.post(
         .json({ status: false, errors: validationErrors.array() })
     }
 
-    const date = new Date()
+    const userHash = req.token['work.neirowork.librarian.userHash']
 
-    pool.getConnection((err, connection) => {
-      // 蔵書の登録
-      connection.query(
-        'INSERT INTO books SET ?',
-        {
-          title: req.body.title,
-          volume: req.body.volume,
-          isDoujin: req.body.isDoujin,
-          remarks: req.body.remarks,
-          userHash: req.token['work.neirowork.librarian.userHash'],
-          timestamp: Math.floor(date.getTime() / 1000)
-        },
-        (err, results) => {
-          // 蔵書IDの代入
-          const bookId = results.insertId
+    const reqData = req.body
+    const bookId = await booksModule.create(
+      userHash,
+      reqData.title,
+      reqData.volume,
+      reqData.isDoujin,
+      reqData.remarks
+    )
+    const hash = crypto
+      .createHash('sha256')
+      .update(String(bookId))
+      .digest('hex')
 
-          // 蔵書IDからダイジェスト値を作成
-          const hash = crypto
-            .createHash('sha256')
-            .update(String(bookId))
-            .digest('hex')
-
-          // 蔵書ハッシュ値を適用
-          connection.query(
-            'UPDATE books SET hash = ? WHERE id = ?',
-            [hash, bookId],
-            (err, results) => {
-              // 蔵書の最終的な情報を取得
-              connection.query(
-                'SELECT * FROM books WHERE ? LIMIT 1',
-                {
-                  id: bookId
-                },
-                (err, results) => {
-                  // 登録情報をレスポンス
-                  const data = results[0]
-                  return res.json({
-                    status: true,
-                    hash: data.hash,
-                    title: data.title,
-                    volume: data.volume,
-                    remarks: data.remarks,
-                    timestamp: data.timestamp
-                  })
-                }
-              )
-            }
-          )
+    const setHashStatus = await booksModule.setHash(bookId, hash)
+    if (!setHashStatus) {
+      return res.status(500).json({
+        status: false,
+        errors: {
+          enum: '',
+          message: '内部エラーが発生しました'
         }
-      )
-      connection.release()
+      })
+    }
+
+    const bookData = await booksModule.get(userHash, hash)
+    if (!bookData) {
+      return res.status(500).json({
+        status: false,
+        errors: {
+          enum: '',
+          message: '内部エラーが発生しました'
+        }
+      })
+    }
+
+    return res.json({
+      status: true,
+      hash: bookData.hash,
+      title: bookData.title,
+      volume: bookData.volume,
+      remarks: bookData.remarks,
+      timestamp: bookData.timestamp
     })
   }
 )
 
 // [🔒GET] 蔵書情報を取得する
-router.get('/:bookHash', [check('bookHash').isString()], (req, res) => {
+router.get('/:bookHash', [check('bookHash').isString()], async (req, res) => {
   const validationErrors = validationResult(req)
   if (validationErrors.array().length !== 0) {
     return res
@@ -232,35 +164,23 @@ router.get('/:bookHash', [check('bookHash').isString()], (req, res) => {
       .json({ status: false, errors: validationErrors.array() })
   }
 
-  pool.getConnection((err, connection) => {
-    connection.query(
-      'SELECT * FROM books WHERE hash = ? AND isDelete = 0 AND userHash = ?',
-      [req.params.bookHash, req.token['work.neirowork.librarian.userHash']],
-      (err, results) => {
-        if (results.length === 0) {
-          return res.status(404).json({
-            status: false,
-            errors: {
-              enum: 'BOOK_NOT_FOUND',
-              message: '指定された蔵書が見つかりません。'
-            }
-          })
-        } else {
-          const book = results[0]
-          return res.json({
-            status: true,
-            book: {
-              title: book.title,
-              volume: book.volume,
-              isDoujin: book.isDoujin,
-              remarks: book.remarks,
-              timestamp: book.timestamp
-            }
-          })
-        }
+  const bookData = await booksModule.get(
+    req.token['work.neirowork.librarian.userHash'],
+    req.params.bookHash
+  )
+  if (!bookData) {
+    return res.status(404).json({
+      status: false,
+      errors: {
+        enum: 'BOOK_NOT_FOUND',
+        message: '指定された蔵書が見つかりません。'
       }
-    )
-    connection.release()
+    })
+  }
+
+  return res.json({
+    status: true,
+    book: bookData
   })
 })
 
@@ -273,44 +193,34 @@ router.delete('/:bookHash', [check('bookHash').isString()], (req, res) => {
       .json({ status: false, errors: validationErrors.array() })
   }
 
+  const userHash = req.token['work.neirowork.librarian.userHash']
   const bookHash = req.params.bookHash
 
-  pool.getConnection((err, connection) => {
-    // 蔵書データの確認
-    connection.query(
-      'SELECT * FROM books WHERE ? AND isDelete = 0',
-      {
-        hash: bookHash
-      },
-      (err, results) => {
-        // 蔵書が見つからなかったとき
-        if (results.length === 0) {
-          return res.status(404).json({
-            status: false,
-            errors: {
-              enum: 'BOOK_NOT_FOUND',
-              message: '指定された蔵書が見つかりません。'
-            }
-          })
-        } else {
-          // 削除フラグを立てる
-          connection.query(
-            'UPDATE books SET isDelete = 1 WHERE ?',
-            {
-              hash: bookHash
-            },
-            (err, results) => {
-              // レスポンス
-              return res.json({
-                status: true,
-                hash: bookHash
-              })
-            }
-          )
-        }
+  const existBook = booksModule.get(userHash, bookHash)
+  if (!existBook) {
+    return res.status(404).json({
+      status: false,
+      errors: {
+        enum: 'BOOK_NOT_FOUND',
+        message: '指定された蔵書が見つかりません。'
       }
-    )
-    connection.release()
+    })
+  }
+
+  const deleteStatus = booksModule.remove(userHash, bookHash)
+  if (!deleteStatus) {
+    return res.status(500).json({
+      status: false,
+      errors: {
+        enum: '',
+        message: '内部エラーが発生しました'
+      }
+    })
+  }
+
+  return res.json({
+    status: true,
+    hash: bookHash
   })
 })
 

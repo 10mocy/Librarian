@@ -1,5 +1,3 @@
-import crypto from 'crypto'
-
 /* データベース設定 */
 import mysql from 'mysql'
 import mysqlConfig from '../../mysql.config'
@@ -9,23 +7,23 @@ export const hasExistLoginId = loginId =>
   new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       connection.query(
         'SELECT * FROM accounts WHERE loginId = ?',
         [loginId],
         (err, results) => {
+          connection.release()
           if (err) {
-            reject(err)
+            return reject(err)
           }
           if (results.length !== 0) {
-            resolve(false)
+            return resolve(false)
           }
-          resolve(true)
+          return resolve(true)
         }
       )
-      connection.release()
     })
   })
 
@@ -38,7 +36,7 @@ export const createAccount = (
   new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       connection.query(
@@ -50,14 +48,14 @@ export const createAccount = (
           displayName
         },
         (err, results) => {
+          connection.release()
           if (err) {
-            reject(err)
+            return reject(err)
           }
 
-          resolve(results.insertId)
+          return resolve(results.insertId)
         }
       )
-      connection.release()
     })
   })
 
@@ -65,21 +63,21 @@ export const setUserHash = (userId, userHash) =>
   new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       connection.query(
         'UPDATE accounts SET hash = ? WHERE id = ?',
         [userHash, userId],
         err => {
+          connection.release()
           if (err) {
-            reject(err)
+            return reject(err)
           }
 
-          resolve(true)
+          return resolve(true)
         }
       )
-      connection.release()
     })
   })
 
@@ -87,25 +85,25 @@ export const auth = (loginId, passwordHash) =>
   new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       connection.query(
         'SELECT * FROM accounts WHERE loginId = ? AND password = ? LIMIT 1',
         [loginId, passwordHash],
         (err, results) => {
+          connection.release()
           if (err) {
-            reject(err)
+            return reject(err)
           }
 
           if (results.length !== 1) {
-            resolve(false)
+            return resolve(false)
           }
 
-          resolve(results[0])
+          return resolve(results[0])
         }
       )
-      connection.release()
     })
   })
 

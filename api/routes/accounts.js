@@ -4,10 +4,6 @@ const router = express.Router()
 import accountsModule from '../libs/accounts'
 
 import librarianConfig from '../../librarian.config'
-import mysqlConfig from '../../mysql.config'
-
-import mysql from 'mysql'
-const pool = mysql.createPool(mysqlConfig)
 
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
