@@ -318,4 +318,4 @@ router.delete('/:bookHash', [check('bookHash').isString()], (req, res) => {
   })
 })
 
-module.exports = router
+export default router
