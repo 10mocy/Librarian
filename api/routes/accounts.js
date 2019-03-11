@@ -92,7 +92,7 @@ router.post(
 router.post(
   '/jwt',
   [check('loginId').isAlphanumeric(), check('password').isString()],
-  (req, res) => {
+  async (req, res) => {
     const validationErrors = validationResult(req)
     if (validationErrors.array().length !== 0) {
       return res
@@ -106,54 +106,39 @@ router.post(
       .update(req.body.password)
       .digest('hex')
 
-    pool.getConnection((err, connection) => {
-      // #region 認証
-      connection.query(
-        'SELECT * FROM accounts WHERE loginId = ? AND password = ? LIMIT 1',
-        [req.body.loginId, passwordHash],
-        (err, results) => {
-          // #region 認証状態確認(アカウントが存在するかどうか)
-          if (results.length !== 1) {
-            return res.status(403).json({
-              status: false,
-              errors: {
-                enum: 'FAILED_AUTHORIZE',
-                message: '認証に失敗しました。'
-              }
-            })
-          }
-          // #endregion
-
-          const account = results[0]
-
-          // Gravatar用IDの生成(メールアドレスのMD5ダイジェスト値)
-          const gravatarId = crypto
-            .createHash('md5')
-            .update(account.emailAddress)
-            .digest('hex')
-
-          // JWTトークン生成
-          const token = jwt.sign(
-            {
-              'work.neirowork.librarian.displayName': account.displayName,
-              'work.neirowork.librarian.gravatarId': gravatarId,
-              'work.neirowork.librarian.userHash': account.hash
-            },
-            librarianConfig.secret,
-            {
-              expiresIn: '24h'
-            }
-          )
-
-          // トークン返却
-          return res.json({
-            status: true,
-            token: token
-          })
+    const authData = await accountsModule.auth(req.body.loginId, passwordHash)
+    if (!authData) {
+      return res.status(403).json({
+        status: false,
+        errors: {
+          enum: 'FAILED_AUTHORIZE',
+          message: '認証に失敗しました。'
         }
-      )
-      // #endregion
-      connection.release()
+      })
+    }
+
+    const gravatarId = crypto
+      .createHash('md5')
+      .update(authData.emailAddress)
+      .digest('hex')
+
+    // JWTトークン生成
+    const token = jwt.sign(
+      {
+        'work.neirowork.librarian.displayName': authData.displayName,
+        'work.neirowork.librarian.gravatarId': gravatarId,
+        'work.neirowork.librarian.userHash': authData.hash
+      },
+      librarianConfig.secret,
+      {
+        expiresIn: '24h'
+      }
+    )
+
+    // トークン返却
+    return res.json({
+      status: true,
+      token: token
     })
   }
 )

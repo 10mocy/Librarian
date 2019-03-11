@@ -83,8 +83,35 @@ export const setUserHash = (userId, userHash) =>
     })
   })
 
+export const auth = (loginId, passwordHash) =>
+  new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err)
+      }
+
+      connection.query(
+        'SELECT * FROM accounts WHERE loginId = ? AND password = ? LIMIT 1',
+        [loginId, passwordHash],
+        (err, results) => {
+          if (err) {
+            reject(err)
+          }
+
+          if (results.length !== 1) {
+            resolve(false)
+          }
+
+          resolve(results[0])
+        }
+      )
+      connection.release()
+    })
+  })
+
 export default {
   hasExistLoginId,
   createAccount,
-  setUserHash
+  setUserHash,
+  auth
 }
