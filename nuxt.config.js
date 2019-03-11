@@ -5,6 +5,7 @@ const meta = {
   description: 'Librarian',
   themeColor: '#ff8800'
 }
+
 module.exports = {
   mode: 'spa',
   srcDir: './client',

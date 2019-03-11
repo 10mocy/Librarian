@@ -1,10 +1,10 @@
-const express = require('express')
+import express from 'express'
 const app = express()
 
-const bodyParser = require('body-parser')
+import bodyParser from 'body-parser'
 
-const booksRouter = require('./routes/books')
-const accountsRouter = require('./routes/accounts')
+import booksRouter from './routes/books'
+import accountsRouter from './routes/accounts'
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
