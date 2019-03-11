@@ -1,5 +1,5 @@
 <template lang="pug">
-  .nav
+  nav.nav
     .nav_brand Librarian
     ul.nav_menu
       span(v-if='sessionData')
