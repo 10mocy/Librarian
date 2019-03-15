@@ -155,6 +155,62 @@ router.post(
   }
 )
 
+// [🔒PUT] 蔵書情報を編集する
+router.put(
+  '/:bookHash',
+  [
+    check('bookHash').isString(),
+    check('title')
+      .isString()
+      .not()
+      .isEmpty(),
+    check('volume')
+      .isString()
+      .not()
+      .isEmpty(),
+    check('isDoujin')
+      .isInt()
+      .not()
+      .isEmpty(),
+    check('remarks').isString(),
+    check('isbn').isString()
+  ],
+  async (req, res) => {
+    const validationErrors = validationResult(req)
+    if (validationErrors.array().length !== 0) {
+      return res
+        .status(422)
+        .json({ status: false, errors: validationErrors.array() })
+    }
+
+    const userHash = req.token['work.neirowork.librarian.userHash']
+
+    const editStatus = await booksModule
+      .edit(
+        userHash,
+        req.params.bookHash,
+        req.body.title,
+        req.body.volume,
+        req.body.isDoujin,
+        req.body.remarks,
+        req.body.isbn
+      )
+      .catch(err => console.error(err))
+    if (!editStatus) {
+      return res.status(500).json({
+        status: false,
+        errors: {
+          enum: '',
+          message: '内部エラーが発生しました'
+        }
+      })
+    }
+
+    return res.status(200).json({
+      status: true
+    })
+  }
+)
 // [🔒GET] 蔵書情報を取得する
 router.get('/:bookHash', [check('bookHash').isString()], async (req, res) => {
   const validationErrors = validationResult(req)

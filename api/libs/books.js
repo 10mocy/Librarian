@@ -149,7 +149,15 @@ export const create = (userHash, title, volume, isDoujin, remarks) =>
     })
   })
 
-export const edit = (userHash, bookHash, title, volume, remarks, isbn) =>
+export const edit = (
+  userHash,
+  bookHash,
+  title,
+  volume,
+  isDoujin,
+  remarks,
+  isbn
+) =>
   new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
@@ -157,8 +165,8 @@ export const edit = (userHash, bookHash, title, volume, remarks, isbn) =>
       }
 
       connection.query(
-        'UPDATE books SET title = ?, volume = ?, remarks = ? WHERE hash = ? AND userHash = ?',
-        [title, volume, remarks, bookHash, userHash],
+        'UPDATE books SET title = ?, volume = ?, isDoujin = ?, remarks = ?, isbn = ? WHERE hash = ? AND userHash = ?',
+        [title, volume, isDoujin, remarks, isbn, bookHash, userHash],
         (err, results) => {
           connection.release()
           if (err) {
@@ -219,6 +227,8 @@ export default {
   get,
   getAll,
   search,
+  create,
+  edit,
   setHash,
   remove
 }
