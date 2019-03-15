@@ -41,6 +41,8 @@ import axios from 'axios'
 export default {
   async beforeMount() {
     this.initialaized = await this.requireAuth()
+    this.query.query = this.$route.query.q || ''
+    if (this.query.query !== '') this.search()
   },
   data() {
     return {
@@ -65,6 +67,10 @@ export default {
       requireAuth: 'session/requireAuth'
     }),
     search() {
+      this.$router.push({
+        path: '/dashboard/search',
+        query: { q: this.query.query }
+      })
       axios
         .post(
           '/api/books/search',
