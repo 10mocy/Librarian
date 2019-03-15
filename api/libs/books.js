@@ -32,6 +32,7 @@ export const get = (userHash, bookHash) =>
             volume: data.volume,
             isDoujin: data.isDoujin,
             remarks: data.remarks,
+            isbn: data.isbn,
             timestamp: data.timestamp
           })
         }
@@ -67,6 +68,7 @@ export const getAll = userHash =>
                 volume: i.volume,
                 isDoujin: i.isDoujin,
                 remarks: i.remarks,
+                isbn: i.isbn,
                 timestamp: i.timestamp
               })
               callback()
@@ -106,6 +108,7 @@ export const search = (userHash, query) =>
                 volume: i.volume,
                 isDoujin: i.isDoujin,
                 remarks: i.remarks,
+                isbn: i.isbn,
                 timestamp: i.timestamp
               })
               callback()
@@ -159,9 +162,14 @@ export const edit = (
   isbn
 ) =>
   new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
+    pool.getConnection(async (err, connection) => {
       if (err) {
         return reject(err)
+      }
+
+      const existBook = await this.get(userHash, bookHash)
+      if (!existBook) {
+        return resolve(false)
       }
 
       connection.query(

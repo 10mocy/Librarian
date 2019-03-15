@@ -173,7 +173,15 @@ router.put(
       .not()
       .isEmpty(),
     check('remarks').isString(),
-    check('isbn').isString()
+    check('isbn')
+      .isString()
+      .custom(value => {
+        if (!value) return true
+        if (value !== '' && value.length !== 13) {
+          throw new Error('Invaild pattern')
+        }
+        return true
+      })
   ],
   async (req, res) => {
     const validationErrors = validationResult(req)
@@ -197,11 +205,11 @@ router.put(
       )
       .catch(err => console.error(err))
     if (!editStatus) {
-      return res.status(500).json({
+      return res.status(404).json({
         status: false,
         errors: {
-          enum: '',
-          message: '内部エラーが発生しました'
+          enum: 'BOOK_NOT_FOUND',
+          message: '指定された蔵書が見つかりません。'
         }
       })
     }

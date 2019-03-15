@@ -21,10 +21,13 @@
             tr.table_row
               th.table_row_header 備考
               td.table_row_data {{ book.remarks === '' ? '備考なし' : book.remarks }}
-            tr.table_row
+            tr.table_row(v-if='book.isDoujin == 0')
               th.table_row_header ISBN
-              td.table_row_data 未実装
+              td.table_row_data {{ book.isbn }}
         .row_side
+          nuxt-link.button.button-block.button-lg(:to='`/books/${$route.params.id}/edit`')
+            font-awesome-icon(icon='edit')
+            | &nbsp;書籍情報を編集する
           button.button.button-block.button-lg.button-danger(@click='showModal = true')
             font-awesome-icon(icon='trash')
             | &nbsp;書籍を削除する
