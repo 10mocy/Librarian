@@ -17,6 +17,7 @@
 
       .row
         .row_main
+          img.bookImage(v-if='thumbnail', :src='thumbnail')
           table.table
             tr.table_row
               th.table_row_header 備考
@@ -55,6 +56,7 @@ export default {
       error: null,
       status: null,
       book: null,
+      thumbnail: null,
       showModal: false
     }
   },
@@ -66,8 +68,10 @@ export default {
           'X-Access-Token': this.token
         }
       })
-      .then(res => {
+      .then(async res => {
         this.book = res.data.book
+        this.thumbnail = await this.bookThumbnail()
+        console.log(this.thumbnail)
       })
       .catch(err => {
         this.error = {
@@ -116,6 +120,20 @@ export default {
                   : err.response.status
           }
         })
+    },
+    bookThumbnail() {
+      return new Promise(async (resolve, reject) => {
+        const res = await axios.get(
+          `https://www.googleapis.com/books/v1/volumes?q=isbn:${this.book.isbn}`
+        )
+        if (res.data.totalItems === 0) return resolve(false)
+
+        const url = res.data.items[0].volumeInfo.imageLinks.thumbnail.replace(
+          'http',
+          'https'
+        )
+        return resolve(url)
+      })
     }
   }
 }
@@ -147,6 +165,17 @@ export default {
   &_side {
     width: 30%;
   }
+}
+
+.row_main {
+  text-align: center;
+}
+
+.bookImage {
+  width: 200px;
+  margin-bottom: 10px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* トランジション */
