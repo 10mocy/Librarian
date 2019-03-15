@@ -32,6 +32,7 @@ export const get = (userHash, bookHash) =>
             volume: data.volume,
             isDoujin: data.isDoujin,
             remarks: data.remarks,
+            isbn: data.isbn,
             timestamp: data.timestamp
           })
         }
@@ -67,6 +68,7 @@ export const getAll = userHash =>
                 volume: i.volume,
                 isDoujin: i.isDoujin,
                 remarks: i.remarks,
+                isbn: i.isbn,
                 timestamp: i.timestamp
               })
               callback()
@@ -106,6 +108,7 @@ export const search = (userHash, query) =>
                 volume: i.volume,
                 isDoujin: i.isDoujin,
                 remarks: i.remarks,
+                isbn: i.isbn,
                 timestamp: i.timestamp
               })
               callback()
@@ -149,16 +152,29 @@ export const create = (userHash, title, volume, isDoujin, remarks) =>
     })
   })
 
-export const edit = (userHash, bookHash, title, volume, remarks, isbn) =>
+export const edit = (
+  userHash,
+  bookHash,
+  title,
+  volume,
+  isDoujin,
+  remarks,
+  isbn
+) =>
   new Promise((resolve, reject) => {
-    pool.getConnection((err, connection) => {
+    pool.getConnection(async (err, connection) => {
       if (err) {
         return reject(err)
       }
 
+      const existBook = await this.get(userHash, bookHash)
+      if (!existBook) {
+        return resolve(false)
+      }
+
       connection.query(
-        'UPDATE books SET title = ?, volume = ?, remarks = ? WHERE hash = ? AND userHash = ?',
-        [title, volume, remarks, bookHash, userHash],
+        'UPDATE books SET title = ?, volume = ?, isDoujin = ?, remarks = ?, isbn = ? WHERE hash = ? AND userHash = ?',
+        [title, volume, isDoujin, remarks, isbn, bookHash, userHash],
         (err, results) => {
           connection.release()
           if (err) {
@@ -219,6 +235,8 @@ export default {
   get,
   getAll,
   search,
+  create,
+  edit,
   setHash,
   remove
 }

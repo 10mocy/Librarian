@@ -17,14 +17,18 @@
 
       .row
         .row_main
+          img.bookImage(v-if='thumbnail', :src='thumbnail')
           table.table
             tr.table_row
               th.table_row_header 備考
               td.table_row_data {{ book.remarks === '' ? '備考なし' : book.remarks }}
-            tr.table_row
+            tr.table_row(v-if='book.isDoujin == 0')
               th.table_row_header ISBN
-              td.table_row_data 未実装
+              td.table_row_data {{ book.isbn }}
         .row_side
+          nuxt-link.button.button-block.button-lg(:to='`/books/${$route.params.id}/edit`')
+            font-awesome-icon(icon='edit')
+            | &nbsp;書籍情報を編集する
           button.button.button-block.button-lg.button-danger(@click='showModal = true')
             font-awesome-icon(icon='trash')
             | &nbsp;書籍を削除する
@@ -52,6 +56,7 @@ export default {
       error: null,
       status: null,
       book: null,
+      thumbnail: null,
       showModal: false
     }
   },
@@ -63,8 +68,10 @@ export default {
           'X-Access-Token': this.token
         }
       })
-      .then(res => {
+      .then(async res => {
         this.book = res.data.book
+        this.thumbnail = await this.bookThumbnail()
+        console.log(this.thumbnail)
       })
       .catch(err => {
         this.error = {
@@ -113,6 +120,20 @@ export default {
                   : err.response.status
           }
         })
+    },
+    bookThumbnail() {
+      return new Promise(async (resolve, reject) => {
+        const res = await axios.get(
+          `https://www.googleapis.com/books/v1/volumes?q=isbn:${this.book.isbn}`
+        )
+        if (res.data.totalItems === 0) return resolve(false)
+
+        const url = res.data.items[0].volumeInfo.imageLinks.thumbnail.replace(
+          'http',
+          'https'
+        )
+        return resolve(url)
+      })
     }
   }
 }
@@ -144,6 +165,17 @@ export default {
   &_side {
     width: 30%;
   }
+}
+
+.row_main {
+  text-align: center;
+}
+
+.bookImage {
+  width: 200px;
+  margin-bottom: 10px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* トランジション */
